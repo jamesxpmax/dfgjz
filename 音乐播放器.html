@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐播放器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deltaDark: '#0b0f14',
+                        deltaMid: '#141b24',
+                        deltaCard: '#1a232e',
+                        deltaAccent: '#ff8a00',
+                        deltaBlue: '#1e73be',
+                        deltaLine: '#2a3644'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background: #0b0f14; }
+        .progress-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff8a00;
+            cursor: pointer;
+            box-shadow: 0 0 6px rgba(255,138,0,0.6);
+        }
+        .volume-bar::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff8a00;
+            cursor: pointer;
+        }
+        .music-item.active {
+            background: rgba(255,138,0,0.15);
+            border-left: 3px solid #ff8a00;
+            color: #ff8a00;
+        }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="text-gray-200 min-h-screen flex items-center justify-center p-6">
+
+<div class="w-full max-w-md bg-deltaCard border border-deltaLine rounded-xl overflow-hidden shadow-lg">
+    <!-- 标题 -->
+    <div class="px-5 py-4 border-b border-deltaLine flex items-center justify-between">
+        <div class="flex items-center">
+            <i class="fa fa-music text-deltaAccent mr-3"></i>
+            <span class="font-bold">音乐播放器</span>
+        </div>
+        <button id="modeBtn" class="text-gray-400 hover:text-deltaAccent transition text-sm" title="循环模式">
+            <i class="fa fa-refresh"></i>
+            <span id="modeText" class="ml-1 text-xs">列表循环</span>
+        </button>
+    </div>
+
+    <!-- 当前播放信息 -->
+    <div class="px-5 py-4">
+        <div class="text-center mb-3">
+            <div id="songName" class="text-lg font-medium truncate text-deltaAccent">选择一首音乐</div>
+            <div class="text-xs text-gray-500 mt-1">
+                <span id="currentTime">00:00</span> / <span id="totalTime">00:00</span>
+            </div>
+        </div>
+
+        <!-- 进度条 -->
+        <input type="range" id="progress" class="progress-bar w-full h-1 bg-deltaLine rounded-full appearance-none cursor-pointer" value="0" min="0" max="100">
+    </div>
+
+    <!-- 控制按钮 -->
+    <div class="px-5 pb-4 flex items-center justify-center gap-6">
+        <button id="prevBtn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-deltaMid hover:text-deltaAccent transition">
+            <i class="fa fa-step-backward"></i>
+        </button>
+        <button id="playBtn" class="w-14 h-14 flex items-center justify-center rounded-full bg-deltaAccent text-deltaDark hover:brightness-110 transition text-xl">
+            <i class="fa fa-play"></i>
+        </button>
+        <button id="nextBtn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-deltaMid hover:text-deltaAccent transition">
+            <i class="fa fa-step-forward"></i>
+        </button>
+    </div>
+
+    <!-- 音量 -->
+    <div class="px-5 pb-4 flex items-center gap-3 text-sm">
+        <i class="fa fa-volume-up text-gray-400 w-4 text-center"></i>
+        <input type="range" id="volume" class="volume-bar flex-1 h-1 bg-deltaLine rounded-full appearance-none cursor-pointer" value="80" min="0" max="100">
+        <span id="volumeText" class="text-xs text-gray-500 w-8">80%</span>
+    </div>
+
+    <!-- 播放列表 -->
+    <div class="border-t border-deltaLine">
+        <div class="px-5 py-2 text-xs text-gray-500 flex justify-between items-center">
+            <span>播放列表</span>
+            <span id="countText">0 首</span>
+        </div>
+        <div id="musicList" class="max-h-60 overflow-y-auto scrollbar-hide">
+            <!-- 音乐项动态生成 -->
+        </div>
+    </div>
+
+    <!-- 上传按钮 -->
+    <div class="px-5 py-3 border-t border-deltaLine">
+        <label class="flex items-center justify-center w-full py-2 border border-dashed border-deltaLine rounded text-sm text-gray-400 hover:text-deltaAccent hover:border-deltaAccent transition cursor-pointer">
+            <i class="fa fa-plus mr-2"></i>
+            添加本地音乐
+            <input type="file" id="fileInput" accept="audio/*" multiple class="hidden">
+        </label>
+    </div>
+</div>
+
+<audio id="audio">
+
+<script>
+    const audio = document.getElementById('audio');
+    const playBtn = document.getElementById('playBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const progress = document.getElementById('progress');
+    const volume = document.getElementById('volume');
+    const volumeText = document.getElementById('volumeText');
+    const songName = document.getElementById('songName');
+    const currentTime = document.getElementById('currentTime');
+    const totalTime = document.getElementById('totalTime');
+    const musicList = document.getElementById('musicList');
+    const countText = document.getElementById('countText');
+    const fileInput = document.getElementById('fileInput');
+    const modeBtn = document.getElementById('modeBtn');
+    const modeText = document.getElementById('modeText');
+
+    // ========== 初始预置音乐 ==========
+    const defaultMusic = [
+        { name: '背景音乐 - 硬通货-三角洲', url: '音乐播放/硬通货-三角洲.mp3' },
+        { name: '背景音乐 - GOT YOU', url: '音乐播放/GOT YOU (归零) - 三角洲行动、Lana Mel.、汪晨蕊.mp3' },
+        { name: '背景音乐 - Hazard Operation', url: '音乐播放/Hazard Operation - 三角洲行动、Edwin Wendler.mp3' },
+        { name: '背景音乐 - In the Summer', url: '音乐播放/In the Summer - Universal Production Music&三角洲行动.mp3' },
+        { name: '背景音乐 - MADE OF FIRE', url: '音乐播放/MADE OF FIRE (怒火燎原) - 三角洲行动&MeHylo.mp3' },
+        { name: '背景音乐 - Making Legends', url: '音乐播放/Making Legends - Universal Production Music&三角洲行动.mp3' },
+        { name: '背景音乐 - POSTERGIRL', url: '音乐播放/POSTERGIRL (高能宣言) - 三角洲行动、Peg Parnevik.mp3' },
+        { name: '背景音乐 - SPOTLIGHT HUNTER', url: '音乐播放/SPOTLIGHT HUNTER (焦点猎手) - 三角洲行动、SIENA.mp3' },
+        { name: '背景音乐 - THE FEAR', url: '音乐播放/THE FEAR (无惧) - 三角洲行动、Charlotte Churchman.mp3' },
+        { name: '背景音乐 - Dawn', url: '音乐播放/三角洲行动&Lithium Done-Dawn (黎明将至).mp3' },
+        { name: '背景音乐 - 星河追梦', url: '音乐播放/星河追梦 (Beyond the Stars) - 三角洲行动.mp3' }
+    ];
+
+    let playlist = [...defaultMusic];
+    let currentIndex = -1;
+    let playMode = 0; // 0列表循环 1单曲循环
+    const modes = ['列表循环', '单曲循环'];
+
+    // 初始化渲染列表
+    renderList();
+    if (playlist.length > 0) {
+        songName.textContent = playlist[0].name;
+        currentIndex = 0;
+        audio.src = playlist[0].url;
+    }
+
+    // 上传音乐
+    fileInput.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files);
+        files.forEach(file => {
+            const url = URL.createObjectURL(file);
+            playlist.push({
+                name: file.name.replace(/\.[^/.]+$/, ''),
+                url: url
+            });
+        });
+        renderList();
+        if (currentIndex === -1 && playlist.length > 0) {
+            playMusic(0);
+        }
+        fileInput.value = '';
+    });
+
+    // 渲染列表
+    function renderList() {
+        musicList.innerHTML = playlist.map((item, index) => `
+            <div class="music-item px-5 py-2.5 text-sm cursor-pointer hover:bg-deltaMid transition flex items-center justify-between ${index === currentIndex ? 'active' : ''}" data-index="${index}">
+                <span class="truncate flex-1">${item.name}</span>
+                <button class="del-btn text-gray-500 hover:text-red-400 ml-2" data-index="${index}" title="移除">
+                    <i class="fa fa-times-circle-o"></i>
+                </button>
+            </div>
+        `).join('');
+        countText.textContent = `${playlist.length} 首`;
+
+        // 列表点击切歌
+        document.querySelectorAll('.music-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (e.target.closest('.del-btn')) return;
+                playMusic(parseInt(item.dataset.index));
+            });
+        });
+
+        // 删除
+        document.querySelectorAll('.del-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const idx = parseInt(btn.dataset.index);
+                // 预置音乐移除后刷新会恢复，用户上传的永久移除
+                if (idx >= defaultMusic.length) {
+                    URL.revokeObjectURL(playlist[idx].url);
+                }
+                playlist.splice(idx, 1);
+                if (idx === currentIndex) {
+                    if (playlist.length > 0) {
+                        currentIndex = idx >= playlist.length ? 0 : idx;
+                        playMusic(currentIndex);
+                    } else {
+                        currentIndex = -1;
+                        audio.src = '';
+                        songName.textContent = '选择一首音乐';
+                        currentTime.textContent = '00:00';
+                        totalTime.textContent = '00:00';
+                        playBtn.innerHTML = '<i class="fa fa-play"></i>';
+                    }
+                } else if (idx < currentIndex) {
+                    currentIndex--;
+                }
+                renderList();
+            });
+        });
+    }
+
+    // 播放指定曲目
+    function playMusic(index) {
+        if (index < 0 || index >= playlist.length) return;
+        currentIndex = index;
+        audio.src = playlist[index].url;
+        songName.textContent = playlist[index].name;
+        audio.play();
+        playBtn.innerHTML = '<i class="fa fa-pause"></i>';
+        renderList();
+    }
+
+    // 播放/暂停
+    playBtn.addEventListener('click', () => {
+        if (playlist.length === 0) return;
+        if (audio.paused) {
+            audio.play();
+            playBtn.innerHTML = '<i class="fa fa-pause"></i>';
+        } else {
+            audio.pause();
+            playBtn.innerHTML = '<i class="fa fa-play"></i>';
+        }
+    });
+
+    // 上一首
+    prevBtn.addEventListener('click', () => {
+        if (playlist.length === 0) return;
+        let idx = currentIndex - 1;
+        if (idx < 0) idx = playlist.length - 1;
+        playMusic(idx);
+    });
+
+    // 下一首
+    nextBtn.addEventListener('click', () => {
+        if (playlist.length === 0) return;
+        nextSong();
+    });
+
+    function nextSong() {
+        let idx = currentIndex + 1;
+        if (idx >= playlist.length) idx = 0;
+        playMusic(idx);
+    }
+
+    // 循环模式切换
+    modeBtn.addEventListener('click', () => {
+        playMode = (playMode + 1) % 2;
+        modeText.textContent = modes[playMode];
+    });
+
+    // 播放结束
+    audio.addEventListener('ended', () => {
+        if (playMode === 1) {
+            audio.currentTime = 0;
+            audio.play();
+        } else {
+            nextSong();
+        }
+    });
+
+    // 进度更新
+    audio.addEventListener('timeupdate', () => {
+        if (audio.duration) {
+            progress.value = (audio.currentTime / audio.duration) * 100;
+            currentTime.textContent = formatTime(audio.currentTime);
+        }
+    });
+
+    audio.addEventListener('loadedmetadata', () => {
+        totalTime.textContent = formatTime(audio.duration);
+    });
+
+    // 进度拖拽
+    progress.addEventListener('input', () => {
+        if (audio.duration) {
+            audio.currentTime = (progress.value / 100) * audio.duration;
+        }
+    });
+
+    // 音量
+    volume.addEventListener('input', () => {
+        audio.volume = volume.value / 100;
+        volumeText.textContent = `${volume.value}%`;
+    });
+    audio.volume = 0.8;
+
+    // 时间格式化
+    function formatTime(sec) {
+        const m = Math.floor(sec / 60).toString().padStart(2, '0');
+        const s = Math.floor(sec % 60).toString().padStart(2, '0');
+        return `${m}:${s}`;
+    }
+</script>
+
+</body>
+</html>

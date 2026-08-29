@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>暗星燃料单元 | 点位</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            font-family: Consolas, "Courier New", monospace;
+            color: #00ff66;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* 终端窗口主体 */
+        .terminal {
+            width: 100%;
+            max-width: 1200px;
+            border: 2px solid #00ff66;
+            background: #0a1f12;
+            box-shadow: 0 0 20px rgba(0,255,102,0.3), inset 0 0 30px rgba(0,255,102,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* CRT扫描线效果 */
+        .terminal::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0,255,102,0.04) 0px,
+                rgba(0,255,102,0.04) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* 顶部标题栏 */
+        .title-bar {
+            height: 40px;
+            border-bottom: 2px solid #00ff66;
+            background: #00ff66;
+            color: #0a1f12;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            font-weight: bold;
+            font-size: 18px;
+            position: relative;
+        }
+        .title-bar .win-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        .title-bar .win-btn span {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #0a1f12;
+            display: block;
+        }
+
+        /* 主体布局 */
+        .terminal-body {
+            display: flex;
+            min-height: 680px;
+            width: 100%;
+        }
+
+        /* 左侧装饰面板 */
+        .side-panel {
+            width: 220px;
+            flex-shrink: 0;
+            border-right: 2px solid #00ff66;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .pixel-fuel {
+            width: 100px;
+            height: 100px;
+            image-rendering: pixelated;
+            margin: 0 auto;
+            filter: drop-shadow(0 0 8px rgba(0,255,102,0.6));
+        }
+        .side-cmd {
+            border: 1px solid #00ff66;
+            padding: 6px 10px;
+            font-size: 13px;
+            position: relative;
+            text-align: center;
+        }
+        .side-cmd::before, .side-cmd::after {
+            content: ">";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .side-cmd::before { left: 4px; }
+        .side-cmd::after { right: 4px; }
+
+        /* 右侧主内容 */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            padding: 25px 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .tip-text {
+            text-align: center;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* 区域标题 */
+        .zone-title {
+            font-size: 15px;
+            font-weight: bold;
+            border-bottom: 1px dashed rgba(0,255,102,0.4);
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .zone-title::before {
+            content: "▸";
+            color: #00ff66;
+        }
+
+        /* 点位按钮网格 */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .point-btn {
+            background: transparent;
+            border: 1px solid #00ff66;
+            color: #00ff66;
+            padding: 10px 6px;
+            font-family: inherit;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+            user-select: none;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.3;
+        }
+        .point-btn:hover {
+            background: rgba(0,255,102,0.15);
+            box-shadow: 0 0 10px rgba(0,255,102,0.4);
+        }
+        /* 高亮标记状态 */
+        .point-btn.marked {
+            background: #00ff66;
+            color: #0a1f12;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(0,255,102,0.6);
+        }
+
+        /* 清除按钮 */
+        .clear-btn {
+            grid-column: span 4;
+            border-color: #ff6600;
+            color: #ff6600;
+            margin-top: 4px;
+        }
+        .clear-btn:hover {
+            background: rgba(255,102,0,0.15);
+            box-shadow: 0 0 10px rgba(255,102,0,0.4);
+        }
+
+        /* 底部版权 */
+        .footer-text {
+            text-align: right;
+            padding: 8px 15px;
+            border-top: 1px solid rgba(0,255,102,0.3);
+            font-size: 11px;
+            opacity: 0.5;
+        }
+
+        /* 图片弹窗 */
+        .img-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            cursor: pointer;
+        }
+        .img-modal.show { display: flex; }
+        .img-modal img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border: 2px solid #00ff66;
+            box-shadow: 0 0 30px rgba(0,255,102,0.5);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .terminal-body { flex-direction: column; }
+            .side-panel {
+                width: 100%;
+                border-right: none;
+                border-bottom: 2px solid #00ff66;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                gap: 20px;
+            }
+            .pixel-fuel { width: 60px; height: 60px; margin: 0; }
+            .btn-grid { grid-template-columns: 1fr 1fr; }
+            .clear-btn { grid-column: span 2; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="terminal">
+    <!-- 顶部标题栏 -->
+    <div class="title-bar">
+        <span>🌐 C:\暗星燃料单元</span>
+        <div class="win-btn">
+            <span></span><span></span>
+        </div>
+    </div>
+
+    <div class="terminal-body">
+        <!-- 左侧装饰面板 -->
+        <div class="side-panel">
+            <!-- 像素燃料罐图标 -->
+            <svg class="pixel-fuel" viewBox="0 0 32 32" fill="#00ff66">
+                <path d="M10 2h12v2h2v4h-2v16h-2v4h-8v-4h-2V8h-2V4h2V2z"/>
+                <path d="M12 6h8v2h-2v12h-4V8h-2V6z" fill="#0a1f12"/>
+                <path d="M14 10h4v2h-4z" fill="#0a1f12"/>
+            </svg>
+            <div class="side-cmd">...FUEL</div>
+        </div>
+
+        <!-- 右侧主内容 -->
+        <div class="main-content">
+            <div class="tip-text">
+                @干员，暗星燃料刷新点位一览（长按可高亮/取消高亮辅助记忆，点击查看点位图）
+            </div>      
+
+            <!-- 牢区 -->
+            <div class="zone-block">
+                <div class="zone-title">牢区</div>
+                <div class="btn-grid">
+                    <button class="point-btn" data-img="暗星燃料点位.图片/1.png">
+                        吊装室旅行车
+                    </button>
+                    <button class="point-btn" data-img="暗星燃料点位.图片/2.png">
+                        组装室二楼
+                    </button>
+                    <button class="point-btn" data-img="暗星燃料点位.图片/3.png">
+                        打印室火箭仓      
+                    </button>
+                    <button class="point-btn" data-img="暗星燃料点位.图片/4.png">
+                        打印室外围车旁
+                    </button>
+                </div>
+            </div>
+
+            <!-- 中控楼区 -->
+            <div class="zone-block">
+                <div class="zone-title">中控楼区</div>
+                <div class="btn-grid">
+                    <button class="point-btn" data-img="暗星燃料点位.图片/5.png">
+                        中控楼外围沙地墙旁
+                    </button>
+                    <button class="point-btn" data-img="暗星燃料点位.图片/6.png">
+                        中控楼外围沙地蓝车
+                    </button>
+                    <button class="point-btn" data-img="暗星燃料点位.图片/7.png">
+                        中控楼二楼保险房桌子      
+                    </button>
+                    <button class="point-btn" data-img="暗星燃料点位.图片/8.png">
+                        中控楼入口左侧斜坡
+                    </button>
+                </div>
+            </div>
+
+            <!-- 宿舍楼区 -->
+            <div class="zone-block">
+                <div class="zone-title">宿舍楼区</div>
+                <div class="btn-grid">
+                    <button class="point-btn" data-img="暗星燃料点位.图片/9.png">
+                        宿舍楼入口箱子堆
+                    </button>
+                    <button class="point-btn" data-img="暗星燃料点位.图片/10.png">
+                        二号宿舍楼楼梯旁桌子
+                    </button>
+                    <button class="point-btn" data-img="暗星燃料点位.图片/11.png">
+                        宿舍楼天桥下方      
+                    </button>
+                    <button class="point-btn" data-img="暗星燃料点位.图片/12.png">
+                        西区大门医疗堆箱旁
+                    </button>
+
+                    <button class="point-btn clear-btn" id="clearMark">清除辅助记忆点位</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="footer-text">
+        DARK STAR FUEL & SPAWN MAP
+    </div>
+</div>
+
+<!-- 图片弹窗 -->
+<div class="img-modal" id="imgModal">
+    <img id="modalImg" src="" alt="点位图">
+</div>
+
+<script>
+    const buttons = document.querySelectorAll('.point-btn:not(.clear-btn)');
+    const modal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalImg');
+    const clearBtn = document.getElementById('clearMark');
+
+    let pressTimer = null;
+    const LONG_PRESS_DELAY = 500; // 长按触发时间 毫秒
+
+    buttons.forEach(btn => {
+        // 点击打开图片
+        btn.addEventListener('click', () => {
+            if (pressTimer) return; // 长按触发时不响应点击
+            const imgSrc = btn.dataset.img;
+            if (!imgSrc || imgSrc === '') return;
+            modalImg.src = imgSrc;
+            modal.classList.add('show');
+        });
+
+        // 长按检测
+        const startPress = (e) => {
+            e.preventDefault();
+            pressTimer = setTimeout(() => {
+                btn.classList.toggle('marked');
+                pressTimer = null;
+            }, LONG_PRESS_DELAY);
+        };
+
+        const endPress = () => {
+            if (pressTimer) {
+                clearTimeout(pressTimer);
+                pressTimer = null;
+            }
+        };
+
+        btn.addEventListener('mousedown', startPress);
+        btn.addEventListener('mouseup', endPress);
+        btn.addEventListener('mouseleave', endPress);
+        btn.addEventListener('touchstart', startPress);
+        btn.addEventListener('touchend', endPress);
+    });
+
+    // 关闭弹窗
+    modal.addEventListener('click', () => {
+        modal.classList.remove('show');
+    });
+
+    // 清除所有标记
+    clearBtn.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('marked'));
+    });
+</script>
+
+</body>
+</html>

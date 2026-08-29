@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>勇敢者行动 | 电脑点位</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            font-family: Consolas, "Courier New", monospace;
+            color: #00ff66;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* 终端窗口主体 */
+        .terminal {
+            width: 100%;
+            max-width: 1200px;
+            border: 2px solid #00ff66;
+            background: #0a1f12;
+            box-shadow: 0 0 20px rgba(0,255,102,0.3), inset 0 0 30px rgba(0,255,102,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* CRT扫描线效果 */
+        .terminal::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(0,255,102,0.04) 0px,
+                rgba(0,255,102,0.04) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* 顶部标题栏 */
+        .title-bar {
+            height: 40px;
+            border-bottom: 2px solid #00ff66;
+            background: #00ff66;
+            color: #0a1f12;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            font-weight: bold;
+            font-size: 18px;
+            position: relative;
+        }
+        .title-bar .win-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 8px;
+        }
+        .title-bar .win-btn span {
+            width: 10px;
+            height: 10px;
+            border: 1px solid #0a1f12;
+            display: block;
+        }
+
+        /* 主体布局 */
+        .terminal-body {
+            display: flex;
+            min-height: 560px;
+            width: 100%;
+        }
+
+        /* 左侧装饰面板 */
+        .side-panel {
+            width: 220px;
+            flex-shrink: 0;
+            border-right: 2px solid #00ff66;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .pixel-shield {
+            width: 100px;
+            height: 100px;
+            image-rendering: pixelated;
+            margin: 0 auto;
+            filter: drop-shadow(0 0 8px rgba(0,255,102,0.6));
+        }
+        .side-cmd {
+            border: 1px solid #00ff66;
+            padding: 6px 10px;
+            font-size: 13px;
+            position: relative;
+        }
+        .side-cmd::before, .side-cmd::after {
+            content: ">";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .side-cmd::before { left: 4px; }
+        .side-cmd::after { right: 4px; }
+
+        /* 右侧主内容 */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 顶部logo装饰 */
+        .logo-deco {
+            text-align: center;
+            opacity: 0.9;
+        }
+        .logo-deco .diamond {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 10px;
+            position: relative;
+        }
+        .logo-deco .diamond::before,
+        .logo-deco .diamond::after {
+            content: "----->";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            letter-spacing: 2px;
+        }
+        .logo-deco .diamond::before { left: 30px; }
+        .logo-deco .diamond::after { right: 30px; }
+        .logo-deco .diamond svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 8px rgba(0,255,102,0.6));
+        }
+        .logo-deco .hash {
+            letter-spacing: 4px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        /* 提示文字 */
+        .tip-text {
+            text-align: center;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* 按钮网格 */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            flex: 1;
+            align-content: start;
+        }
+        .point-btn {
+            background: transparent;
+            border: 1px solid #00ff66;
+            color: #00ff66;
+            padding: 12px 8px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+            user-select: none;
+        }
+        .point-btn:hover {
+            background: rgba(0,255,102,0.15);
+            box-shadow: 0 0 10px rgba(0,255,102,0.4);
+        }
+        /* 高亮标记状态 */
+        .point-btn.marked {
+            background: #00ff66;
+            color: #0a1f12;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(0,255,102,0.6);
+        }
+        .point-btn.clear-btn {
+            grid-column: span 3;
+            border-color: #ff6600;
+            color: #ff6600;
+        }
+        .point-btn.clear-btn:hover {
+            background: rgba(255,102,0,0.15);
+            box-shadow: 0 0 10px rgba(255,102,0,0.4);
+        }
+
+        /* 底部版权 */
+        .footer-text {
+            text-align: right;
+            padding: 8px 15px;
+            border-top: 1px solid rgba(0,255,102,0.3);
+            font-size: 11px;
+            opacity: 0.5;
+        }
+
+        /* 图片弹窗 */
+        .img-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            cursor: pointer;
+        }
+        .img-modal.show { display: flex; }
+        .img-modal img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border: 2px solid #00ff66;
+            box-shadow: 0 0 30px rgba(0,255,102,0.5);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .terminal-body { flex-direction: column; }
+            .side-panel {
+                width: 100%;
+                border-right: none;
+                border-bottom: 2px solid #00ff66;
+                flex-direction: row;
+                align-items: center;
+            }
+            .pixel-shield { width: 60px; height: 60px; margin: 0; }
+            .btn-grid { grid-template-columns: 1fr 1fr; }
+            .point-btn.clear-btn { grid-column: span 2; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="terminal">
+    <!-- 顶部标题栏 -->
+    <div class="title-bar">
+        <span>🌐 :\勇敢者行动</span>
+        <div class="win-btn">
+            <span></span><span></span>
+        </div>
+    </div>
+
+    <div class="terminal-body">
+        <!-- 左侧装饰面板 -->
+        <div class="side-panel">
+            <!-- 像素盾牌图标 -->
+            <svg class="pixel-shield" viewBox="0 0 32 32" fill="#00ff66">
+                <path d="M6 2h20v4h2v6h-2v8l-8 8-8-8V6H6V2z"/>
+                <path d="M10 6h12v4h-2v6l-4 4-4-4v-6h-2V6z" fill="#0a1f12"/>
+            </svg>
+            <div class="side-cmd">...0XD</div>
+        </div>
+
+        <!-- 右侧主内容 -->
+        <div class="main-content">
+            <!-- 装饰logo -->
+            <div class="logo-deco">
+                <div class="diamond">
+                    <svg viewBox="0 0 100 100" fill="none" stroke="#00ff66" stroke-width="4">
+                        <path d="M50 10 L90 50 L50 90 L10 50 Z" />
+                        <path d="M50 25 L75 50 L50 75 L25 50 Z" />
+                    </svg>
+                </div>
+                <div class="hash">#### &nbsp;&nbsp;&nbsp;&nbsp; ####</div>
+            </div>
+
+            <div class="tip-text">
+                @干员，你想查看勇敢者行动中哪个电脑的点位呢？（长按可高亮/取消高亮辅助记忆点位）
+            </div>
+
+            <!-- 点位按钮网格 -->
+            <div class="btn-grid">
+                <button class="point-btn" data-img="勇敢者.图片/总裁接收任务点.png">总裁接收任务点</button>
+                <button class="point-btn" data-img="勇敢者.图片/浮力室宇航服展台.png">浮力室宇航服展台</button>
+                <button class="point-btn" data-img="勇敢者.图片/浮力室顶层会议室.png">浮力室顶层会议室</button>
+
+                <button class="point-btn" data-img="勇敢者.图片/浮力室升降台.png">浮力室升降台</button>
+                <button class="point-btn" data-img="勇敢者.图片/离心机室后门卸货区.png">离心机室后门卸货区</button>
+                <button class="point-btn" data-img="勇敢者.图片/离心机室斜坡无人货车.png">离心机室斜坡无人货车</button>
+
+                <button class="point-btn" data-img="勇敢者.图片/离心机室离心机.png">离心机室离心机</button>
+                <button class="point-btn" data-img="勇敢者.图片/蓝室二楼控制台.png">蓝室二楼控制台</button>
+                <button class="point-btn" data-img="勇敢者.图片/蓝室一楼工具间.png">蓝室一楼工具间</button>
+
+                <button class="point-btn" data-img="勇敢者.图片/蓝室外挂楼梯.png">蓝室外挂楼梯</button>
+                <button class="point-btn" data-img="勇敢者.图片/黑室实验舱发电机.png">黑室实验舱发电机</button>
+                <button class="point-btn" data-img="勇敢者.图片/黑室电梯井.png">黑室电梯井</button>
+
+                <button class="point-btn" data-img="勇敢者.图片/黑室服务器机房.png">黑室服务器机房</button>
+                <button></button>
+                <button class="point-btn clear-btn" id="clearMark">清除辅助记忆点位</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-text">
+        BRAVE ACTION & POINT MAP
+    </div>
+</div>
+
+<!-- 图片弹窗 -->
+<div class="img-modal" id="imgModal">
+    <img id="modalImg" src="" alt="点位图">
+</div>
+
+<script>
+    const buttons = document.querySelectorAll('.point-btn:not(.clear-btn)');
+    const modal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalImg');
+    const clearBtn = document.getElementById('clearMark');
+
+    let pressTimer = null;
+    const LONG_PRESS_DELAY = 500; // 长按触发时间 毫秒
+
+    buttons.forEach(btn => {
+        // 点击打开图片
+        btn.addEventListener('click', () => {
+            if (pressTimer) return; // 长按触发时不响应点击
+            const imgSrc = btn.dataset.img;
+            if (!imgSrc || imgSrc === '') return;
+            modalImg.src = imgSrc;
+            modal.classList.add('show');
+        });
+
+        // 长按检测
+        const startPress = (e) => {
+            e.preventDefault();
+            pressTimer = setTimeout(() => {
+                btn.classList.toggle('marked');
+                pressTimer = null;
+            }, LONG_PRESS_DELAY);
+        };
+
+        const endPress = () => {
+            if (pressTimer) {
+                clearTimeout(pressTimer);
+                pressTimer = null;
+            }
+        };
+
+        btn.addEventListener('mousedown', startPress);
+        btn.addEventListener('mouseup', endPress);
+        btn.addEventListener('mouseleave', endPress);
+        btn.addEventListener('touchstart', startPress);
+        btn.addEventListener('touchend', endPress);
+    });
+
+    // 关闭弹窗
+    modal.addEventListener('click', () => {
+        modal.classList.remove('show');
+    });
+
+    // 清除所有标记
+    clearBtn.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('marked'));
+    });
+</script>
+
+</body>
+</html>
