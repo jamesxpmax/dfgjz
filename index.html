@@ -250,7 +250,8 @@
             justify-content: center;
             text-align: center;
             line-height: 1.3;
-            touch-action: manipulation; /* 移动端触摸优化 */
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
         .brave-terminal .point-btn:hover {
             background: rgba(0,255,102,0.15);
@@ -278,18 +279,20 @@
             font-size: 10px;
             opacity: 0.5;
         }
-        .brave-terminal .img-modal {
+
+        /* 弹窗统一样式（移到body级，避免被裁剪） */
+        .img-modal {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.85);
             display: none;
             align-items: center;
             justify-content: center;
-            z-index: 100;
+            z-index: 9999;
             cursor: pointer;
         }
-        .brave-terminal .img-modal.show { display: flex; }
-        .brave-terminal .img-modal img {
+        .img-modal.show { display: flex; }
+        .img-modal img {
             max-width: 90vw;
             max-height: 90vh;
             border: 2px solid #00ff66;
@@ -547,7 +550,7 @@
 
             <div class="terminal">
                 <div class="title-bar">
-                    <span>🌐C :\勇敢者行动</span>
+                    <span>🌐 :\勇敢者行动</span>
                     <div class="win-btn">
                         <span></span><span></span>
                     </div>
@@ -574,7 +577,7 @@
                         </div>
 
                         <div class="tip-text">
-                            糕手@干员，你想查看勇敢者行动中哪个核心区破译电脑的点位呢？（长按可高亮标记/取消高亮辅助记忆点位）
+                            @干员，你想查看勇敢者行动中哪个电脑的点位呢？（长按可高亮/取消高亮辅助记忆点位）
                         </div>
 
                         <div class="btn-grid">
@@ -600,10 +603,6 @@
                 <div class="footer-text">
                     BRAVE ACTION & POINT MAP
                 </div>
-            </div>
-
-            <div class="img-modal" id="braveImgModal">
-                <img id="braveModalImg" src="" alt="点位图">
             </div>
         </section>
 
@@ -674,21 +673,27 @@
                     DARK STAR FUEL & SPAWN MAP
                 </div>
             </div>
-
-            <div class="img-modal" id="fuelImgModal">
-                <img id="fuelModalImg" src="" alt="点位图">
-            </div>
         </section>
 
     </div>
 </main>
 
-<!-- 图片放大查看模态框 -->
-<div id="imageModal" class="fixed inset-0 bg-black/85 z-[100] hidden items-center justify-center p-4 cursor-pointer">
+<!-- 全局弹窗（移到body级，避免被父容器裁剪） -->
+<div id="imageModal" class="fixed inset-0 bg-black/85 z-[9999] hidden items-center justify-center p-4 cursor-pointer">
     <button id="closeModal" class="absolute top-4 right-4 text-white text-2xl hover:text-deltaAccent transition z-10">
         <i class="fa fa-times"></i>
     </button>
     <img id="modalImage" class="max-w-[90vw] max-h-[90vh] rounded-lg" src="" alt="位置大图">
+</div>
+
+<!-- 勇敢者点位弹窗 -->
+<div class="img-modal" id="braveImgModal">
+    <img id="braveModalImg" src="" alt="点位图">
+</div>
+
+<!-- 暗星燃料弹窗 -->
+<div class="img-modal" id="fuelImgModal">
+    <img id="fuelModalImg" src="" alt="点位图">
 </div>
 
 <!-- 右下角悬浮音乐播放器 -->
@@ -963,8 +968,8 @@
         const modalImg = document.getElementById('braveModalImg');
         const clearBtn = document.getElementById('clearMark');
 
+        let isLongPress = false;
         let pressTimer = null;
-        let pressStartTime = 0;
         const LONG_PRESS_DELAY = 500;
 
         function openImage(btn) {
@@ -975,40 +980,37 @@
         }
 
         buttons.forEach(btn => {
-            // 桌面端点击兼容
+            // 桌面端点击
             btn.addEventListener('click', () => {
                 openImage(btn);
             });
 
-            const startPress = () => {
-                pressStartTime = Date.now();
+            // 触摸开始
+            btn.addEventListener('touchstart', () => {
+                isLongPress = false;
                 pressTimer = setTimeout(() => {
+                    isLongPress = true;
                     btn.classList.toggle('marked');
-                    pressTimer = null;
-                    pressStartTime = 0;
                 }, LONG_PRESS_DELAY);
-            };
+            }, { passive: true });
 
-            const endPress = () => {
-                if (pressTimer) {
-                    clearTimeout(pressTimer);
-                    // 按下时长小于阈值判定为点击，打开图片
-                    if (Date.now() - pressStartTime < LONG_PRESS_DELAY) {
-                        openImage(btn);
-                    }
-                    pressTimer = null;
-                    pressStartTime = 0;
+            // 触摸结束
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                if (pressTimer) clearTimeout(pressTimer);
+                // 不是长按就打开图片
+                if (!isLongPress) {
+                    openImage(btn);
                 }
-            };
+            });
 
-            btn.addEventListener('mousedown', startPress);
-            btn.addEventListener('mouseup', endPress);
-            btn.addEventListener('mouseleave', endPress);
-            btn.addEventListener('touchstart', startPress, { passive: true });
-            btn.addEventListener('touchend', endPress);
-            btn.addEventListener('touchcancel', endPress);
+            // 触摸取消
+            btn.addEventListener('touchcancel', () => {
+                if (pressTimer) clearTimeout(pressTimer);
+            });
         });
 
+        // 点击弹窗关闭
         modal.addEventListener('click', () => {
             modal.classList.remove('show');
         });
@@ -1025,8 +1027,8 @@
         const modalImg = document.getElementById('fuelModalImg');
         const clearBtn = document.getElementById('fuelClearMark');
 
+        let isLongPress = false;
         let pressTimer = null;
-        let pressStartTime = 0;
         const LONG_PRESS_DELAY = 500;
 
         function openImage(btn) {
@@ -1037,40 +1039,37 @@
         }
 
         buttons.forEach(btn => {
-            // 桌面端点击兼容
+            // 桌面端点击
             btn.addEventListener('click', () => {
                 openImage(btn);
             });
 
-            const startPress = () => {
-                pressStartTime = Date.now();
+            // 触摸开始
+            btn.addEventListener('touchstart', () => {
+                isLongPress = false;
                 pressTimer = setTimeout(() => {
+                    isLongPress = true;
                     btn.classList.toggle('marked');
-                    pressTimer = null;
-                    pressStartTime = 0;
                 }, LONG_PRESS_DELAY);
-            };
+            }, { passive: true });
 
-            const endPress = () => {
-                if (pressTimer) {
-                    clearTimeout(pressTimer);
-                    // 按下时长小于阈值判定为点击，打开图片
-                    if (Date.now() - pressStartTime < LONG_PRESS_DELAY) {
-                        openImage(btn);
-                    }
-                    pressTimer = null;
-                    pressStartTime = 0;
+            // 触摸结束
+            btn.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                if (pressTimer) clearTimeout(pressTimer);
+                // 不是长按就打开图片
+                if (!isLongPress) {
+                    openImage(btn);
                 }
-            };
+            });
 
-            btn.addEventListener('mousedown', startPress);
-            btn.addEventListener('mouseup', endPress);
-            btn.addEventListener('mouseleave', endPress);
-            btn.addEventListener('touchstart', startPress, { passive: true });
-            btn.addEventListener('touchend', endPress);
-            btn.addEventListener('touchcancel', endPress);
+            // 触摸取消
+            btn.addEventListener('touchcancel', () => {
+                if (pressTimer) clearTimeout(pressTimer);
+            });
         });
 
+        // 点击弹窗关闭
         modal.addEventListener('click', () => {
             modal.classList.remove('show');
         });
