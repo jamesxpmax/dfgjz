@@ -295,6 +295,19 @@
             box-shadow: 0 0 30px rgba(0,255,102,0.5);
         }
 
+        /* 音乐播放器最小化模式 */
+        #musicPlayer.mini {
+            width: 0;
+            height: 0;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.8);
+        }
+        #musicFloatBtn.show {
+            display: flex;
+        }
+
+        /* 移动端适配 */
         @media (max-width: 768px) {
             .brave-terminal .terminal-body { flex-direction: column; }
             .brave-terminal .side-panel {
@@ -309,6 +322,17 @@
             .brave-terminal .point-btn.clear-btn { grid-column: span 2; }
             .brave-terminal .fuel-grid { grid-template-columns: 1fr 1fr; }
             .brave-terminal .fuel-grid .clear-btn { grid-column: span 2; }
+            #musicPlayer {
+                width: calc(100vw - 32px);
+                right: 16px;
+                bottom: 16px;
+            }
+            #musicFloatBtn {
+                right: 16px;
+                bottom: 16px;
+                width: 48px;
+                height: 48px;
+            }
         }
     </style>
 </head>
@@ -736,17 +760,22 @@
 </div>
 
 <!-- 右下角悬浮音乐播放器 -->
-<div id="musicPlayer" class="fixed bottom-4 right-4 w-72 bg-deltaCard border border-deltaLine rounded-xl overflow-hidden shadow-2xl z-40">
+<div id="musicPlayer" class="fixed bottom-4 right-4 w-72 bg-deltaCard border border-deltaLine rounded-xl overflow-hidden shadow-2xl z-40 transition-all">
     <!-- 标题 -->
     <div class="px-4 py-3 border-b border-deltaLine flex items-center justify-between">
         <div class="flex items-center">
             <i class="fa fa-music text-deltaAccent mr-2"></i>
             <span class="font-bold text-sm">背景音乐</span>
         </div>
-        <button id="modeBtn" class="text-gray-400 hover:text-deltaAccent transition text-xs" title="循环模式">
-            <i class="fa fa-refresh"></i>
-            <span id="modeText" class="ml-1 text-xs">列表循环</span>
-        </button>
+        <div class="flex items-center gap-2">
+            <button id="minimizeBtn" class="text-gray-400 hover:text-deltaAccent transition text-xs" title="最小化">
+                <i class="fa fa-minus"></i>
+            </button>
+            <button id="modeBtn" class="text-gray-400 hover:text-deltaAccent transition text-xs" title="循环模式">
+                <i class="fa fa-refresh"></i>
+                <span id="modeText" class="ml-1 text-xs">列表循环</span>
+            </button>
+        </div>
     </div>
 
     <!-- 当前播放信息 -->
@@ -802,6 +831,11 @@
         </label>
     </div>
 </div>
+
+<!-- 最小化悬浮按钮（默认隐藏） -->
+<button id="musicFloatBtn" class="fixed bottom-4 right-4 w-12 h-12 rounded-full bg-deltaAccent text-deltaDark shadow-lg z-40 hidden items-center justify-center hover:brightness-110 transition">
+    <i class="fa fa-music"></i>
+</button>
 
 <audio id="audio">
 
@@ -1306,6 +1340,35 @@
         const s = Math.floor(sec % 60).toString().padStart(2, '0');
         return `${m}:${s}`;
     }
+
+    // ========== 音乐播放器最小化逻辑 ==========
+    const musicPlayer = document.getElementById('musicPlayer');
+    const musicFloatBtn = document.getElementById('musicFloatBtn');
+    const minimizeBtn = document.getElementById('minimizeBtn');
+
+    function minimizeMusic() {
+        musicPlayer.classList.add('mini');
+        musicFloatBtn.classList.add('show');
+    }
+    function expandMusic() {
+        musicPlayer.classList.remove('mini');
+        musicFloatBtn.classList.remove('show');
+    }
+
+    minimizeBtn.addEventListener('click', minimizeMusic);
+    musicFloatBtn.addEventListener('click', expandMusic);
+
+    // 移动端默认自动最小化
+    if (window.innerWidth < 768) {
+        minimizeMusic();
+    }
+
+    // 窗口大小变化时适配
+    window.addEventListener('resize', () => {
+        if (window.innerWidth < 768 && !musicPlayer.classList.contains('mini')) {
+            minimizeMusic();
+        }
+    });
 </script>
 
 </body>
