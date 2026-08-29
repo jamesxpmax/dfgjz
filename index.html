@@ -339,6 +339,10 @@
             <i class="fa fa-bullhorn w-6 text-center"></i>
             <span class="ml-2">最新活动</span>
         </a>
+        <a href="javascript:;" class="nav-item flex items-center px-3 py-2.5 rounded hover:bg-deltaCard hover:text-deltaAccent transition" data-target="season11-mission">
+            <i class="fa fa-tasks w-6 text-center"></i>
+            <span class="ml-2">S11赛季任务</span>
+        </a>
 
         <!-- 勇敢者行动分组（可展开） -->
         <div class="nav-group mt-2">
@@ -397,7 +401,7 @@
             </h2>
 
             <!-- 分类标签 -->
-            <div class="flex gap-2 mb-4 border-b border-deltaLine pb-2">
+            <div class="flex gap-2 mb-4 border-b border-deltaLine pb-2 flex-wrap">
                 <button class="gun-tab active px-4 py-2 rounded-t text-sm font-medium bg-deltaAccent text-deltaDark" data-tab="ar">
                     突击步枪
                 </button>
@@ -406,6 +410,15 @@
                 </button>
                 <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="sr">
                     狙击步枪
+                </button>
+                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="pistol">
+                    手枪
+                </button>
+                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="dmr">
+                    射手步枪
+                </button>
+                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="shotgun">
+                    霰弹枪
                 </button>
             </div>
 
@@ -450,6 +463,48 @@
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
+
+            <!-- 手枪栏块 -->
+            <div class="gun-panel hidden" id="panel-pistol">
+                <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="font-semibold">枪械名称：</h4>
+                        <button class="copy-btn text-xs text-deltaAccent hover:underline" data-code="改枪码：">复制代码</button>
+                    </div>
+                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">
+                        改枪码：
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
+                </div>
+            </div>
+
+            <!-- 射手步枪栏块 -->
+            <div class="gun-panel hidden" id="panel-dmr">
+                <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="font-semibold">枪械名称：</h4>
+                        <button class="copy-btn text-xs text-deltaAccent hover:underline" data-code="改枪码：">复制代码</button>
+                    </div>
+                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">
+                        改枪码：
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
+                </div>
+            </div>
+
+            <!-- 霰弹枪栏块 -->
+            <div class="gun-panel hidden" id="panel-shotgun">
+                <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="font-semibold">枪械名称：</h4>
+                        <button class="copy-btn text-xs text-deltaAccent hover:underline" data-code="改枪码：">复制代码</button>
+                    </div>
+                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">
+                        改枪码：
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
+                </div>
+            </div>
         </section>
 
         <!-- 活动介绍专区 -->
@@ -458,25 +513,32 @@
                 <i class="fa fa-bullhorn text-deltaAccent mr-3"></i>
                 最新活动
             </h2>
-            <div class="bg-deltaCard border border-deltaLine rounded-lg p-6">
-                <div class="flex flex-col md:flex-row gap-5">
-                    <div class="md:w-1/3 h-40 bg-deltaMid rounded flex items-center justify-center text-gray-500">
-                        <i class="fa fa-image text-4xl"></i>
-                        <span class="ml-2">活动宣传图位</span>
-                    </div>
-                    <div class="md:w-2/3">
-                        <h3 class="text-xl font-bold text-deltaAccent mb-2">两洲年庆典活动</h3>
-                        <p class="text-sm text-gray-400 mb-3">活动时间：2026.09.26 - 2026.11</p>
-                        <p class="text-gray-300 text-sm leading-relaxed">
-                            两洲年庆活动开启保底领取3900限时三角卷和枪皮，战备物流卷。
-                        </p>
-                        <div class="mt-4 flex gap-3">
-                            <span class="px-2 py-1 bg-deltaAccent/20 text-deltaAccent text-xs rounded">登录福利</span>
-                            <span class="px-2 py-1 bg-deltaBlue/20 text-deltaBlue text-xs rounded">新模式</span>
-                            <span class="px-2 py-1 bg-green-500/20 text-green-400 text-xs rounded">进行中</span>
-                        </div>
-                    </div>
+
+            <!-- 活动分类标签 -->
+            <div class="flex gap-2 mb-4 border-b border-deltaLine pb-2 flex-wrap">
+                <button class="activity-tab active px-4 py-2 rounded-t text-sm font-medium bg-deltaAccent text-deltaDark" data-tab="s11-event">
+                    S11赛季活动
+                </button>
+            </div>
+
+            <!-- S11赛季活动内容 -->
+            <div class="activity-panel" id="panel-s11-event">
+                <div class="bg-deltaCard border border-deltaLine rounded-lg p-6">
+                    <!-- 活动内容可自行填写 -->
+                    <p class="text-gray-400 text-center py-10">S11赛季活动内容待补充</p>
                 </div>
+            </div>
+        </section>
+
+        <!-- S11赛季任务专区 -->
+        <section id="season11-mission" class="panel-section mb-10 hidden">
+            <h2 class="text-2xl font-bold mb-4 flex items-center">
+                <i class="fa fa-tasks text-deltaAccent mr-3"></i>
+                S11赛季任务
+            </h2>
+            <div class="bg-deltaCard border border-deltaLine rounded-lg p-6">
+                <!-- 任务内容可自行填写 -->
+                <p class="text-gray-400 text-center py-10">S11赛季任务内容待补充</p>
             </div>
         </section>
 
@@ -524,23 +586,23 @@
 
                         <!-- 点位按钮网格 -->
                         <div class="btn-grid">
-                            <button class="point-btn" data-img="勇敢者.图片/总裁接收任务点.png">总裁接收任务点</button>
-                            <button class="point-btn" data-img="勇敢者.图片/浮力室宇航服展台.png">浮力室宇航服展台</button>
-                            <button class="point-btn" data-img="勇敢者.图片/浮力室顶层会议室.png">浮力室顶层会议室</button>
+                            <button class="point-btn" data-img="总裁接收任务点.png">总裁接收任务点</button>
+                            <button class="point-btn" data-img="浮力室宇航服展台.png">浮力室宇航服展台</button>
+                            <button class="point-btn" data-img="浮力室顶层会议室.png">浮力室顶层会议室</button>
 
-                            <button class="point-btn" data-img="勇敢者.图片/浮力室升降台.png">浮力室升降台</button>
-                            <button class="point-btn" data-img="勇敢者.图片/离心机室后门卸货区.png">离心机室后门卸货区</button>
-                            <button class="point-btn" data-img="勇敢者.图片/离心机室斜坡无人货车.png">离心机室斜坡无人货车</button>
+                            <button class="point-btn" data-img="浮力室升降台.png">浮力室升降台</button>
+                            <button class="point-btn" data-img="离心机室后门卸货区.png">离心机室后门卸货区</button>
+                            <button class="point-btn" data-img="离心机室斜坡无人货车.png">离心机室斜坡无人货车</button>
 
-                            <button class="point-btn" data-img="勇敢者.图片/离心机室离心机.png">离心机室离心机</button>
-                            <button class="point-btn" data-img="勇敢者.图片/蓝室二楼控制台.png">蓝室二楼控制台</button>
-                            <button class="point-btn" data-img="勇敢者.图片/蓝室一楼工具间.png">蓝室一楼工具间</button>
+                            <button class="point-btn" data-img="离心机室离心机.png">离心机室离心机</button>
+                            <button class="point-btn" data-img="蓝室二楼控制台.png">蓝室二楼控制台</button>
+                            <button class="point-btn" data-img="蓝室一楼工具间.png">蓝室一楼工具间</button>
 
-                            <button class="point-btn" data-img="勇敢者.图片/蓝室外挂楼梯.png">蓝室外挂楼梯</button>
-                            <button class="point-btn" data-img="勇敢者.图片/黑室实验舱发电机.png">黑室实验舱发电机</button>
-                            <button class="point-btn" data-img="勇敢者.图片/黑室电梯井.png">黑室电梯井</button>
+                            <button class="point-btn" data-img="蓝室外挂楼梯.png">蓝室外挂楼梯</button>
+                            <button class="point-btn" data-img="黑室实验舱发电机.png">黑室实验舱发电机</button>
+                            <button class="point-btn" data-img="黑室电梯井.png">黑室电梯井</button>
 
-                            <button class="point-btn" data-img="勇敢者.图片/黑室服务器机房.png">黑室服务器机房</button>
+                            <button class="point-btn" data-img="黑室服务器机房.png">黑室服务器机房</button>
                             <button></button>
                             <button class="point-btn clear-btn" id="clearMark">清除辅助记忆点位</button>
                         </div>
@@ -595,16 +657,16 @@
                         <div class="zone-block">
                             <div class="zone-title">牢区</div>
                             <div class="btn-grid fuel-grid">
-                                <button class="point-btn" data-img="暗星燃料点位.图片/1.png">
+                                <button class="point-btn" data-img="1.png">
                                     吊装室旅行车
                                 </button>
-                                <button class="point-btn" data-img="暗星燃料点位.图片/2.png">
+                                <button class="point-btn" data-img="2.png">
                                     组装室二楼
                                 </button>
-                                <button class="point-btn" data-img="暗星燃料点位.图片/3.png">
-                                    打印室火箭仓      
+                                <button class="point-btn" data-img="3.png">
+                                    打印室火箭仓     
                                 </button>
-                                <button class="point-btn" data-img="暗星燃料点位.图片/4.png">
+                                <button class="point-btn" data-img="4.png">
                                     打印室外围车旁
                                 </button>
                             </div>
@@ -614,16 +676,16 @@
                         <div class="zone-block">
                             <div class="zone-title">中控楼区</div>
                             <div class="btn-grid fuel-grid">
-                                <button class="point-btn" data-img="暗星燃料点位.图片/5.png">
+                                <button class="point-btn" data-img="5.png">
                                     中控楼外围沙地墙旁
                                 </button>
-                                <button class="point-btn" data-img="暗星燃料点位.图片/6.png">
+                                <button class="point-btn" data-img="6.png">
                                     中控楼外围沙地蓝车
                                 </button>
-                                <button class="point-btn" data-img="暗星燃料点位.图片/7.png">
-                                    中控楼二楼保险房桌子      
+                                <button class="point-btn" data-img="7.png">
+                                    中控楼二楼保险房桌子     
                                 </button>
-                                <button class="point-btn" data-img="暗星燃料点位.图片/8.png">
+                                <button class="point-btn" data-img="8.png">
                                     中控楼入口左侧斜坡
                                 </button>
                             </div>
@@ -633,16 +695,16 @@
                         <div class="zone-block">
                             <div class="zone-title">宿舍楼区</div>
                             <div class="btn-grid fuel-grid">
-                                <button class="point-btn" data-img="暗星燃料点位.图片/9.png">
+                                <button class="point-btn" data-img="9.png">
                                     宿舍楼入口箱子堆
                                 </button>
-                                <button class="point-btn" data-img="暗星燃料点位.图片/10.png">
+                                <button class="point-btn" data-img="10.png">
                                     二号宿舍楼楼梯旁桌子
                                 </button>
-                                <button class="point-btn" data-img="暗星燃料点位.图片/11.png">
-                                    宿舍楼天桥下方      
+                                <button class="point-btn" data-img="11.png">
+                                    宿舍楼天桥下方     
                                 </button>
-                                <button class="point-btn" data-img="暗星燃料点位.图片/12.png">
+                                <button class="point-btn" data-img="12.png">
                                     西区大门医疗堆箱旁
                                 </button>
                                 <button class="point-btn clear-btn" id="fuelClearMark">清除辅助记忆点位</button>
@@ -800,6 +862,23 @@
             tab.classList.add('active', 'bg-deltaAccent', 'text-deltaDark');
             tab.classList.remove('bg-deltaCard', 'text-gray-300');
             gunPanels.forEach(p => p.classList.add('hidden'));
+            document.getElementById('panel-' + target).classList.remove('hidden');
+        });
+    });
+
+    // 活动标签切换
+    const activityTabs = document.querySelectorAll('.activity-tab');
+    const activityPanels = document.querySelectorAll('.activity-panel');
+    activityTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = tab.dataset.tab;
+            activityTabs.forEach(t => {
+                t.classList.remove('active', 'bg-deltaAccent', 'text-deltaDark');
+                t.classList.add('bg-deltaCard', 'text-gray-300');
+            });
+            tab.classList.add('active', 'bg-deltaAccent', 'text-deltaDark');
+            tab.classList.remove('bg-deltaCard', 'text-gray-300');
+            activityPanels.forEach(p => p.classList.add('hidden'));
             document.getElementById('panel-' + target).classList.remove('hidden');
         });
     });
@@ -1050,17 +1129,17 @@
 
     // 初始预置音乐
     const defaultMusic = [
-        { name: '背景音乐 - 硬通货-三角洲', url: '音乐播放/硬通货-三角洲.mp3' },
-        { name: '背景音乐 - GOT YOU', url: '音乐播放/GOT YOU (归零) - 三角洲行动、Lana Mel.、汪晨蕊.mp3' },
-        { name: '背景音乐 - Hazard Operation', url: '音乐播放/Hazard Operation - 三角洲行动、Edwin Wendler.mp3' },
-        { name: '背景音乐 - In the Summer', url: '音乐播放/In the Summer - Universal Production Music&三角洲行动.mp3' },
-        { name: '背景音乐 - MADE OF FIRE', url: '音乐播放/MADE OF FIRE (怒火燎原) - 三角洲行动&MeHylo.mp3' },
-        { name: '背景音乐 - Making Legends', url: '音乐播放/Making Legends - Universal Production Music&三角洲行动.mp3' },
-        { name: '背景音乐 - POSTERGIRL', url: '音乐播放/POSTERGIRL (高能宣言) - 三角洲行动、Peg Parnevik.mp3' },
-        { name: '背景音乐 - SPOTLIGHT HUNTER', url: '音乐播放/SPOTLIGHT HUNTER (焦点猎手) - 三角洲行动、SIENA.mp3' },
-        { name: '背景音乐 - THE FEAR', url: '音乐播放/THE FEAR (无惧) - 三角洲行动、Charlotte Churchman.mp3' },
-        { name: '背景音乐 - Dawn', url: '音乐播放/三角洲行动&Lithium Done-Dawn (黎明将至).mp3' },
-        { name: '背景音乐 - 星河追梦', url: '音乐播放/星河追梦 (Beyond the Stars) - 三角洲行动.mp3' }
+        { name: '背景音乐 - 硬通货-三角洲', url: '硬通货-三角洲.mp3' },
+        { name: '背景音乐 - GOT YOU', url: 'GOT YOU (归零) - 三角洲行动、Lana Mel.、汪晨蕊.mp3' },
+        { name: '背景音乐 - Hazard Operation', url: 'Hazard Operation - 三角洲行动、Edwin Wendler.mp3' },
+        { name: '背景音乐 - In the Summer', url: 'In the Summer - Universal Production Music&三角洲行动.mp3' },
+        { name: '背景音乐 - MADE OF FIRE', url: 'MADE OF FIRE (怒火燎原) - 三角洲行动&MeHylo.mp3' },
+        { name: '背景音乐 - Making Legends', url: 'Making Legends - Universal Production Music&三角洲行动.mp3' },
+        { name: '背景音乐 - POSTERGIRL', url: 'POSTERGIRL (高能宣言) - 三角洲行动、Peg Parnevik.mp3' },
+        { name: '背景音乐 - SPOTLIGHT HUNTER', url: 'SPOTLIGHT HUNTER (焦点猎手) - 三角洲行动、SIENA.mp3' },
+        { name: '背景音乐 - THE FEAR', url: 'THE FEAR (无惧) - 三角洲行动、Charlotte Churchman.mp3' },
+        { name: '背景音乐 - Dawn', url: '三角洲行动&Lithium Done-Dawn (黎明将至).mp3' },
+        { name: '背景音乐 - 星河追梦', url: '星河追梦 (Beyond the Stars) - 三角洲行动.mp3' }
     ];
 
     let playlist = [...defaultMusic];
