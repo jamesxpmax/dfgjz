@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>三角洲行动 | 工具站</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -212,7 +212,7 @@
             flex: 1;
             align-content: start;
         }
-        /* 暗星4列网格专属 */
+        /* 暗星 4 列网格专属 */
         .brave-terminal .fuel-grid {
             grid-template-columns: repeat(4, 1fr);
         }
@@ -250,6 +250,7 @@
             justify-content: center;
             text-align: center;
             line-height: 1.3;
+            touch-action: manipulation; /* 移动端触摸优化 */
         }
         .brave-terminal .point-btn:hover {
             background: rgba(0,255,102,0.15);
@@ -338,7 +339,6 @@
 </head>
 <body class="text-gray-200 min-h-screen">
 
-<!-- 侧边栏 -->
 <aside id="sidebar" class="fixed left-0 top-0 h-full w-60 bg-deltaMid border-r border-deltaLine z-50 transform -translate-x-full md:translate-x-0 transition-transform">
     <!-- LOGO区域 -->
     <div class="h-16 flex items-center px-5 border-b border-deltaLine">
@@ -348,8 +348,6 @@
             <div class="text-xs text-gray-500">三角洲行动 - 玩家工具站</div>
         </div>
     </div>
-
-    <!-- 导航菜单 -->
     <nav class="py-4 px-2 space-y-1">
         <a href="javascript:;" class="nav-item flex items-center px-3 py-2.5 rounded bg-deltaCard text-deltaAccent transition" data-target="password">
             <i class="fa fa-key w-6 text-center"></i>
@@ -367,8 +365,6 @@
             <i class="fa fa-tasks w-6 text-center"></i>
             <span class="ml-2">S11赛季任务</span>
         </a>
-
-        <!-- 勇敢者行动分组（可展开） -->
         <div class="nav-group mt-2">
             <a href="javascript:;" class="nav-group-title flex items-center px-3 py-2.5 rounded hover:bg-deltaCard hover:text-deltaAccent transition justify-between w-full">
                 <div class="flex items-center">
@@ -391,40 +387,30 @@
     </nav>
 </aside>
 
-<!-- 移动端菜单按钮 -->
 <button id="menuBtn" class="md:hidden fixed top-4 left-4 z-50 bg-deltaCard p-2 rounded border border-deltaLine">
     <i class="fa fa-bars text-deltaAccent"></i>
 </button>
 
-<!-- 主内容区 -->
 <main class="md:ml-60 min-h-screen">
     <div class="max-w-6xl mx-auto p-4 md:p-8">
 
-        <!-- 每日密码专区 -->
         <section id="password" class="panel-section mb-10">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
                 <i class="fa fa-key text-deltaAccent mr-3"></i>
                 每日密码
             </h2>
             <div class="max-w-7xl mx-auto mb-4 text-right text-xs text-gray-500" id="updateInfo">加载中...</div>
-
-            <!-- 加载动画 -->
             <div id="loading" class="flex items-center justify-center py-20">
                 <i class="fa fa-spinner fa-spin text-deltaAccent text-2xl"></i>
             </div>
-
-            <!-- 密码卡片列表 -->
             <div id="passwordList" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto hidden"></div>
         </section>
 
-        <!-- 改枪码专区 -->
         <section id="guncode" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
                 <i class="fa fa-code text-deltaAccent mr-3"></i>
                 改枪码（全模式通用）
             </h2>
-
-            <!-- 分类标签 -->
             <div class="flex gap-2 mb-4 border-b border-deltaLine pb-2 flex-wrap">
                 <button class="gun-tab active px-4 py-2 rounded-t text-sm font-medium bg-deltaAccent text-deltaDark" data-tab="ar">
                     突击步枪
@@ -446,7 +432,6 @@
                 </button>
             </div>
 
-            <!-- 突击步枪栏块 -->
             <div class="gun-panel" id="panel-ar">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -460,7 +445,6 @@
                 </div>
             </div>
 
-            <!-- 冲锋枪栏块 -->
             <div class="gun-panel hidden" id="panel-smg">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -474,7 +458,6 @@
                 </div>
             </div>
 
-            <!-- 狙击步枪栏块 -->
             <div class="gun-panel hidden" id="panel-sr">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -488,7 +471,6 @@
                 </div>
             </div>
 
-            <!-- 手枪栏块 -->
             <div class="gun-panel hidden" id="panel-pistol">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -502,7 +484,6 @@
                 </div>
             </div>
 
-            <!-- 射手步枪栏块 -->
             <div class="gun-panel hidden" id="panel-dmr">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -516,7 +497,6 @@
                 </div>
             </div>
 
-            <!-- 霰弹枪栏块 -->
             <div class="gun-panel hidden" id="panel-shotgun">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -531,37 +511,29 @@
             </div>
         </section>
 
-        <!-- 活动介绍专区 -->
         <section id="activity" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
                 <i class="fa fa-bullhorn text-deltaAccent mr-3"></i>
                 最新活动
             </h2>
-
-            <!-- 活动分类标签 -->
             <div class="flex gap-2 mb-4 border-b border-deltaLine pb-2 flex-wrap">
                 <button class="activity-tab active px-4 py-2 rounded-t text-sm font-medium bg-deltaAccent text-deltaDark" data-tab="s11-event">
                     S11赛季活动
                 </button>
             </div>
-
-            <!-- S11赛季活动内容 -->
             <div class="activity-panel" id="panel-s11-event">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-6">
-                    <!-- 活动内容可自行填写 -->
                     <p class="text-gray-400 text-center py-10">S11赛季活动内容待补充</p>
                 </div>
             </div>
         </section>
 
-        <!-- S11赛季任务专区 -->
         <section id="season11-mission" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
                 <i class="fa fa-tasks text-deltaAccent mr-3"></i>
                 S11赛季任务
             </h2>
             <div class="bg-deltaCard border border-deltaLine rounded-lg p-6">
-                <!-- 任务内容可自行填写 -->
                 <p class="text-gray-400 text-center py-10">S11赛季任务内容待补充</p>
             </div>
         </section>
@@ -574,16 +546,14 @@
             </h2>
 
             <div class="terminal">
-                <!-- 顶部标题栏 -->
                 <div class="title-bar">
-                    <span>🌐 :\勇敢者行动</span>
+                    <span>🌐C :\勇敢者行动</span>
                     <div class="win-btn">
                         <span></span><span></span>
                     </div>
                 </div>
 
                 <div class="terminal-body">
-                    <!-- 左侧装饰面板 -->
                     <div class="side-panel">
                         <svg class="pixel-icon" viewBox="0 0 32 32" fill="#00ff66">
                             <path d="M6 2h20v4h2v6h-2v8l-8 8-8-8V6H6V2z"/>
@@ -592,7 +562,6 @@
                         <div class="side-cmd">...0XD</div>
                     </div>
 
-                    <!-- 右侧主内容 -->
                     <div class="main-content">
                         <div class="logo-deco">
                             <div class="diamond">
@@ -605,27 +574,22 @@
                         </div>
 
                         <div class="tip-text">
-                            @干员，你想查看勇敢者行动中哪个电脑的点位呢？（长按可高亮/取消高亮辅助记忆点位）
+                            糕手@干员，你想查看勇敢者行动中哪个核心区破译电脑的点位呢？（长按可高亮标记/取消高亮辅助记忆点位）
                         </div>
 
-                        <!-- 点位按钮网格 -->
                         <div class="btn-grid">
                             <button class="point-btn" data-img="总裁接收任务点.png">总裁接收任务点</button>
                             <button class="point-btn" data-img="浮力室宇航服展台.png">浮力室宇航服展台</button>
                             <button class="point-btn" data-img="浮力室顶层会议室.png">浮力室顶层会议室</button>
-
                             <button class="point-btn" data-img="浮力室升降台.png">浮力室升降台</button>
                             <button class="point-btn" data-img="离心机室后门卸货区.png">离心机室后门卸货区</button>
                             <button class="point-btn" data-img="离心机室斜坡无人货车.png">离心机室斜坡无人货车</button>
-
                             <button class="point-btn" data-img="离心机室离心机.png">离心机室离心机</button>
                             <button class="point-btn" data-img="蓝室二楼控制台.png">蓝室二楼控制台</button>
                             <button class="point-btn" data-img="蓝室一楼工具间.png">蓝室一楼工具间</button>
-
                             <button class="point-btn" data-img="蓝室外挂楼梯.png">蓝室外挂楼梯</button>
                             <button class="point-btn" data-img="黑室实验舱发电机.png">黑室实验舱发电机</button>
                             <button class="point-btn" data-img="黑室电梯井.png">黑室电梯井</button>
-
                             <button class="point-btn" data-img="黑室服务器机房.png">黑室服务器机房</button>
                             <button></button>
                             <button class="point-btn clear-btn" id="clearMark">清除辅助记忆点位</button>
@@ -638,7 +602,6 @@
                 </div>
             </div>
 
-            <!-- 图片弹窗 -->
             <div class="img-modal" id="braveImgModal">
                 <img id="braveModalImg" src="" alt="点位图">
             </div>
@@ -652,7 +615,6 @@
             </h2>
 
             <div class="terminal">
-                <!-- 顶部标题栏 -->
                 <div class="title-bar">
                     <span>🌐 C:\暗星燃料单元</span>
                     <div class="win-btn">
@@ -661,7 +623,6 @@
                 </div>
 
                 <div class="terminal-body">
-                    <!-- 左侧装饰面板 -->
                     <div class="side-panel">
                         <svg class="pixel-icon" viewBox="0 0 32 32" fill="#00ff66">
                             <path d="M10 2h12v2h2v4h-2v16h-2v4h-8v-4h-2V8h-2V4h2V2z"/>
@@ -671,66 +632,38 @@
                         <div class="side-cmd">...FUEL</div>
                     </div>
 
-                    <!-- 右侧主内容 -->
                     <div class="main-content">
                         <div class="tip-text">
                             @干员，暗星燃料刷新点位一览（长按可高亮/取消高亮辅助记忆，点击查看点位图）
                         </div>      
 
-                        <!-- 牢区 -->
                         <div class="zone-block">
                             <div class="zone-title">牢区</div>
                             <div class="btn-grid fuel-grid">
-                                <button class="point-btn" data-img="1.png">
-                                    吊装室旅行车
-                                </button>
-                                <button class="point-btn" data-img="2.png">
-                                    组装室二楼
-                                </button>
-                                <button class="point-btn" data-img="3.png">
-                                    打印室火箭仓     
-                                </button>
-                                <button class="point-btn" data-img="4.png">
-                                    打印室外围车旁
-                                </button>
+                                <button class="point-btn" data-img="1.png">吊装室旅行车</button>
+                                <button class="point-btn" data-img="2.png">组装室二楼</button>
+                                <button class="point-btn" data-img="3.png">打印室火箭仓</button>
+                                <button class="point-btn" data-img="4.png">打印室外围车旁</button>
                             </div>
                         </div>
 
-                        <!-- 中控楼区 -->
                         <div class="zone-block">
                             <div class="zone-title">中控楼区</div>
                             <div class="btn-grid fuel-grid">
-                                <button class="point-btn" data-img="5.png">
-                                    中控楼外围沙地墙旁
-                                </button>
-                                <button class="point-btn" data-img="6.png">
-                                    中控楼外围沙地蓝车
-                                </button>
-                                <button class="point-btn" data-img="7.png">
-                                    中控楼二楼保险房桌子     
-                                </button>
-                                <button class="point-btn" data-img="8.png">
-                                    中控楼入口左侧斜坡
-                                </button>
+                                <button class="point-btn" data-img="5.png">中控楼外围沙地墙旁</button>
+                                <button class="point-btn" data-img="6.png">中控楼外围沙地蓝车</button>
+                                <button class="point-btn" data-img="7.png">中控楼二楼保险房桌子</button>
+                                <button class="point-btn" data-img="8.png">中控楼入口左侧斜坡</button>
                             </div>
                         </div>
 
-                        <!-- 宿舍楼区 -->
                         <div class="zone-block">
                             <div class="zone-title">宿舍楼区</div>
                             <div class="btn-grid fuel-grid">
-                                <button class="point-btn" data-img="9.png">
-                                    宿舍楼入口箱子堆
-                                </button>
-                                <button class="point-btn" data-img="10.png">
-                                    二号宿舍楼楼梯旁桌子
-                                </button>
-                                <button class="point-btn" data-img="11.png">
-                                    宿舍楼天桥下方     
-                                </button>
-                                <button class="point-btn" data-img="12.png">
-                                    西区大门医疗堆箱旁
-                                </button>
+                                <button class="point-btn" data-img="9.png">宿舍楼入口箱子堆</button>
+                                <button class="point-btn" data-img="10.png">二号宿舍楼楼梯旁桌子</button>
+                                <button class="point-btn" data-img="11.png">宿舍楼天桥下方</button>
+                                <button class="point-btn" data-img="12.png">西区大门医疗堆箱旁</button>
                                 <button class="point-btn clear-btn" id="fuelClearMark">清除辅助记忆点位</button>
                             </div>
                         </div>
@@ -742,7 +675,6 @@
                 </div>
             </div>
 
-            <!-- 图片弹窗 -->
             <div class="img-modal" id="fuelImgModal">
                 <img id="fuelModalImg" src="" alt="点位图">
             </div>
@@ -761,7 +693,6 @@
 
 <!-- 右下角悬浮音乐播放器 -->
 <div id="musicPlayer" class="fixed bottom-4 right-4 w-72 bg-deltaCard border border-deltaLine rounded-xl overflow-hidden shadow-2xl z-40 transition-all">
-    <!-- 标题 -->
     <div class="px-4 py-3 border-b border-deltaLine flex items-center justify-between">
         <div class="flex items-center">
             <i class="fa fa-music text-deltaAccent mr-2"></i>
@@ -778,7 +709,6 @@
         </div>
     </div>
 
-    <!-- 当前播放信息 -->
     <div class="px-4 py-3">
         <div class="text-center mb-2">
             <div id="songName" class="text-sm font-medium truncate text-deltaAccent">选择一首音乐</div>
@@ -786,12 +716,9 @@
                 <span id="currentTime">00:00</span> / <span id="totalTime">00:00</span>
             </div>
         </div>
-
-        <!-- 进度条 -->
         <input type="range" id="progress" class="progress-bar w-full h-1 bg-deltaLine rounded-full appearance-none cursor-pointer" value="0" min="0" max="100">
     </div>
 
-    <!-- 控制按钮 -->
     <div class="px-4 pb-3 flex items-center justify-center gap-5">
         <button id="prevBtn" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-deltaMid hover:text-deltaAccent transition text-sm">
             <i class="fa fa-step-backward"></i>
@@ -804,14 +731,12 @@
         </button>
     </div>
 
-    <!-- 音量 -->
     <div class="px-4 pb-3 flex items-center gap-2 text-xs">
         <i class="fa fa-volume-up text-gray-400 w-4 text-center"></i>
         <input type="range" id="volume" class="volume-bar flex-1 h-1 bg-deltaLine rounded-full appearance-none cursor-pointer" value="80" min="0" max="100">
         <span id="volumeText" class="text-xs text-gray-500 w-7">80%</span>
     </div>
 
-    <!-- 播放列表 -->
     <div class="border-t border-deltaLine">
         <div class="px-4 py-2 text-xs text-gray-500 flex justify-between items-center cursor-pointer hover:bg-deltaMid/50 transition" id="listToggle">
             <span>播放列表</span>
@@ -822,7 +747,6 @@
         </div>
     </div>
 
-    <!-- 上传按钮 -->
     <div class="px-4 py-2 border-t border-deltaLine">
         <label class="flex items-center justify-center w-full py-1.5 border border-dashed border-deltaLine rounded text-xs text-gray-400 hover:text-deltaAccent hover:border-deltaAccent transition cursor-pointer">
             <i class="fa fa-plus mr-2"></i>
@@ -832,7 +756,7 @@
     </div>
 </div>
 
-<!-- 最小化悬浮按钮（默认隐藏） -->
+<!-- 最小化悬浮按钮 -->
 <button id="musicFloatBtn" class="fixed bottom-4 right-4 w-12 h-12 rounded-full bg-deltaAccent text-deltaDark shadow-lg z-40 hidden items-center justify-center hover:brightness-110 transition">
     <i class="fa fa-music"></i>
 </button>
@@ -841,21 +765,18 @@
 
 <script>
     // ========== 工具站原有脚本 ==========
-    // 侧边栏移动端切换
     const menuBtn = document.getElementById('menuBtn');
     const sidebar = document.getElementById('sidebar');
     menuBtn.addEventListener('click', () => {
         sidebar.classList.toggle('-translate-x-full');
     });
 
-    // 侧边栏分组展开/收起
     const groupTitle = document.querySelector('.nav-group-title');
     const navGroup = document.querySelector('.nav-group');
     groupTitle.addEventListener('click', () => {
         navGroup.classList.toggle('open');
     });
 
-    // 板块独立切换
     const allNavItems = document.querySelectorAll('[data-target]');
     const panels = document.querySelectorAll('.panel-section');
 
@@ -864,7 +785,6 @@
             const target = item.dataset.target;
             if (!target) return;
 
-            // 导航激活状态
             document.querySelectorAll('.nav-item, .nav-subitem').forEach(nav => {
                 nav.classList.remove('bg-deltaCard', 'text-deltaAccent');
                 nav.classList.add('hover:bg-deltaCard', 'hover:text-deltaAccent');
@@ -872,18 +792,15 @@
             item.classList.add('bg-deltaCard', 'text-deltaAccent');
             item.classList.remove('hover:bg-deltaCard', 'hover:text-deltaAccent');
 
-            // 切换面板
             panels.forEach(panel => panel.classList.add('hidden'));
             document.getElementById(target).classList.remove('hidden');
 
-            // 移动端收起侧边栏
             if (window.innerWidth < 768) {
                 sidebar.classList.add('-translate-x-full');
             }
         });
     });
 
-    // 改枪码标签切换
     const tabs = document.querySelectorAll('.gun-tab');
     const gunPanels = document.querySelectorAll('.gun-panel');
     tabs.forEach(tab => {
@@ -900,7 +817,6 @@
         });
     });
 
-    // 活动标签切换
     const activityTabs = document.querySelectorAll('.activity-tab');
     const activityPanels = document.querySelectorAll('.activity-panel');
     activityTabs.forEach(tab => {
@@ -917,7 +833,6 @@
         });
     });
 
-    // 通用复制功能
     document.querySelectorAll('.copy-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const content = btn.dataset.pwd || btn.dataset.code || '';
@@ -929,7 +844,6 @@
         });
     });
 
-    // 每日密码 - API对接
     const API_URL = 'https://tmini.net/api/sjzmm';
 
     async function loadPasswords() {
@@ -1016,7 +930,6 @@
         });
     }
 
-    // 图片点击放大功能
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     const closeModal = document.getElementById('closeModal');
@@ -1043,7 +956,7 @@
 
     loadPasswords();
 
-    // ========== 勇敢者行动 电脑点位脚本 ==========
+    // ========== 修复后：勇敢者行动 电脑点位脚本 ==========
     (function(){
         const buttons = document.querySelectorAll('#brave-pc .point-btn:not(.clear-btn)');
         const modal = document.getElementById('braveImgModal');
@@ -1051,37 +964,49 @@
         const clearBtn = document.getElementById('clearMark');
 
         let pressTimer = null;
+        let pressStartTime = 0;
         const LONG_PRESS_DELAY = 500;
 
+        function openImage(btn) {
+            const imgSrc = btn.dataset.img;
+            if (!imgSrc || imgSrc === '') return;
+            modalImg.src = imgSrc;
+            modal.classList.add('show');
+        }
+
         buttons.forEach(btn => {
+            // 桌面端点击兼容
             btn.addEventListener('click', () => {
-                if (pressTimer) return;
-                const imgSrc = btn.dataset.img;
-                if (!imgSrc || imgSrc === '') return;
-                modalImg.src = imgSrc;
-                modal.classList.add('show');
+                openImage(btn);
             });
 
-            const startPress = (e) => {
-                e.preventDefault();
+            const startPress = () => {
+                pressStartTime = Date.now();
                 pressTimer = setTimeout(() => {
                     btn.classList.toggle('marked');
                     pressTimer = null;
+                    pressStartTime = 0;
                 }, LONG_PRESS_DELAY);
             };
 
             const endPress = () => {
                 if (pressTimer) {
                     clearTimeout(pressTimer);
+                    // 按下时长小于阈值判定为点击，打开图片
+                    if (Date.now() - pressStartTime < LONG_PRESS_DELAY) {
+                        openImage(btn);
+                    }
                     pressTimer = null;
+                    pressStartTime = 0;
                 }
             };
 
             btn.addEventListener('mousedown', startPress);
             btn.addEventListener('mouseup', endPress);
             btn.addEventListener('mouseleave', endPress);
-            btn.addEventListener('touchstart', startPress);
+            btn.addEventListener('touchstart', startPress, { passive: true });
             btn.addEventListener('touchend', endPress);
+            btn.addEventListener('touchcancel', endPress);
         });
 
         modal.addEventListener('click', () => {
@@ -1093,7 +1018,7 @@
         });
     })();
 
-    // ========== 暗星燃料单元点位脚本 ==========
+    // ========== 修复后：暗星燃料单元点位脚本 ==========
     (function(){
         const buttons = document.querySelectorAll('#brave-fuel .point-btn:not(.clear-btn)');
         const modal = document.getElementById('fuelImgModal');
@@ -1101,37 +1026,49 @@
         const clearBtn = document.getElementById('fuelClearMark');
 
         let pressTimer = null;
+        let pressStartTime = 0;
         const LONG_PRESS_DELAY = 500;
 
+        function openImage(btn) {
+            const imgSrc = btn.dataset.img;
+            if (!imgSrc || imgSrc === '') return;
+            modalImg.src = imgSrc;
+            modal.classList.add('show');
+        }
+
         buttons.forEach(btn => {
+            // 桌面端点击兼容
             btn.addEventListener('click', () => {
-                if (pressTimer) return;
-                const imgSrc = btn.dataset.img;
-                if (!imgSrc || imgSrc === '') return;
-                modalImg.src = imgSrc;
-                modal.classList.add('show');
+                openImage(btn);
             });
 
-            const startPress = (e) => {
-                e.preventDefault();
+            const startPress = () => {
+                pressStartTime = Date.now();
                 pressTimer = setTimeout(() => {
                     btn.classList.toggle('marked');
                     pressTimer = null;
+                    pressStartTime = 0;
                 }, LONG_PRESS_DELAY);
             };
 
             const endPress = () => {
                 if (pressTimer) {
                     clearTimeout(pressTimer);
+                    // 按下时长小于阈值判定为点击，打开图片
+                    if (Date.now() - pressStartTime < LONG_PRESS_DELAY) {
+                        openImage(btn);
+                    }
                     pressTimer = null;
+                    pressStartTime = 0;
                 }
             };
 
             btn.addEventListener('mousedown', startPress);
             btn.addEventListener('mouseup', endPress);
             btn.addEventListener('mouseleave', endPress);
-            btn.addEventListener('touchstart', startPress);
+            btn.addEventListener('touchstart', startPress, { passive: true });
             btn.addEventListener('touchend', endPress);
+            btn.addEventListener('touchcancel', endPress);
         });
 
         modal.addEventListener('click', () => {
@@ -1161,7 +1098,6 @@
     const modeText = document.getElementById('modeText');
     const listToggle = document.getElementById('listToggle');
 
-    // 初始预置音乐
     const defaultMusic = [
         { name: '背景音乐 - 硬通货-三角洲', url: '硬通货-三角洲.mp3' },
         { name: '背景音乐 - GOT YOU', url: 'GOT YOU (归零) - 三角洲行动、Lana Mel.、汪晨蕊.mp3' },
@@ -1188,7 +1124,6 @@
         audio.src = playlist[0].url;
     }
 
-    // 列表展开/收起
     listToggle.addEventListener('click', () => {
         musicList.classList.toggle('hidden');
         const icon = countText.querySelector('i');
@@ -1196,7 +1131,6 @@
         icon.classList.toggle('fa-chevron-down');
     });
 
-    // 上传音乐
     fileInput.addEventListener('change', (e) => {
         const files = Array.from(e.target.files);
         files.forEach(file => {
@@ -1358,12 +1292,10 @@
     minimizeBtn.addEventListener('click', minimizeMusic);
     musicFloatBtn.addEventListener('click', expandMusic);
 
-    // 移动端默认自动最小化
     if (window.innerWidth < 768) {
         minimizeMusic();
     }
 
-    // 窗口大小变化时适配
     window.addEventListener('resize', () => {
         if (window.innerWidth < 768 && !musicPlayer.classList.contains('mini')) {
             minimizeMusic();
