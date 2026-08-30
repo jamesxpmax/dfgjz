@@ -297,6 +297,7 @@
             max-height: 90vh;
             border: 2px solid #00ff66;
             box-shadow: 0 0 30px rgba(0,255,102,0.5);
+            pointer-events: none;
         }
 
         /* 音乐播放器最小化模式 */
@@ -379,7 +380,7 @@
             <div class="nav-submenu pl-2 space-y-1 mt-1">
                 <a href="javascript:;" class="nav-subitem flex items-center px-3 py-2 rounded hover:bg-deltaCard hover:text-deltaAccent transition text-sm" data-target="brave-pc">
                     <i class="fa fa-desktop w-5 text-center text-xs"></i>
-                    <span class="ml-2">电脑点位</span>
+                    <span class="ml-2">勇敢者行动破译电脑点位</span>
                 </a>
                 <a href="javascript:;" class="nav-subitem flex items-center px-3 py-2 rounded hover:bg-deltaCard hover:text-deltaAccent transition text-sm" data-target="brave-fuel">
                     <i class="fa fa-flask w-5 text-center text-xs"></i>
@@ -387,6 +388,12 @@
                 </a>
             </div>
         </div>
+
+        <!-- 官方邮件导航入口（侧边栏最底部） -->
+        <a href="javascript:;" class="nav-item flex items-center px-3 py-2.5 rounded hover:bg-deltaCard hover:text-deltaAccent transition mt-2" data-target="mail">
+            <i class="fa fa-envelope w-6 text-center"></i>
+            <span class="ml-2">邮件</span>
+        </a>
     </nav>
 </aside>
 
@@ -396,7 +403,7 @@
 
 <main class="md:ml-60 min-h-screen">
     <div class="max-w-6xl mx-auto p-4 md:p-8">
-
+        <!-- 每日密码专区 -->
         <section id="password" class="panel-section mb-10">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
                 <i class="fa fa-key text-deltaAccent mr-3"></i>
@@ -409,30 +416,19 @@
             <div id="passwordList" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto hidden"></div>
         </section>
 
+        <!-- 改枪码专区 -->
         <section id="guncode" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
                 <i class="fa fa-code text-deltaAccent mr-3"></i>
-                改枪码（全模式通用）
+                改枪码
             </h2>
             <div class="flex gap-2 mb-4 border-b border-deltaLine pb-2 flex-wrap">
-                <button class="gun-tab active px-4 py-2 rounded-t text-sm font-medium bg-deltaAccent text-deltaDark" data-tab="ar">
-                    突击步枪
-                </button>
-                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="smg">
-                    冲锋枪
-                </button>
-                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="sr">
-                    狙击步枪
-                </button>
-                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="pistol">
-                    手枪
-                </button>
-                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="dmr">
-                    射手步枪
-                </button>
-                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="shotgun">
-                    霰弹枪
-                </button>
+                <button class="gun-tab active px-4 py-2 rounded-t text-sm font-medium bg-deltaAccent text-deltaDark" data-tab="ar">突击步枪</button>
+                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="smg">冲锋枪</button>
+                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="sr">狙击步枪</button>
+                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="pistol">手枪</button>
+                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="dmr">射手步枪</button>
+                <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="shotgun">霰弹枪</button>
             </div>
 
             <div class="gun-panel" id="panel-ar">
@@ -454,9 +450,7 @@
                         <h4 class="font-semibold">枪械名称：</h4>
                         <button class="copy-btn text-xs text-deltaAccent hover:underline" data-code="改枪码：">复制代码</button>
                     </div>
-                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">
-                        改枪码：
-                    </div>
+                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">改枪码：</div>
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
@@ -467,9 +461,7 @@
                         <h4 class="font-semibold">枪械名称：</h4>
                         <button class="copy-btn text-xs text-deltaAccent hover:underline" data-code="改枪码：">复制代码</button>
                     </div>
-                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">
-                        改枪码：
-                    </div>
+                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">改枪码：</div>
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
@@ -480,9 +472,7 @@
                         <h4 class="font-semibold">枪械名称：</h4>
                         <button class="copy-btn text-xs text-deltaAccent hover:underline" data-code="改枪码：">复制代码</button>
                     </div>
-                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">
-                        改枪码：
-                    </div>
+                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">改枪码：</div>
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
@@ -493,9 +483,7 @@
                         <h4 class="font-semibold">枪械名称：</h4>
                         <button class="copy-btn text-xs text-deltaAccent hover:underline" data-code="改枪码：">复制代码</button>
                     </div>
-                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">
-                        改枪码：
-                    </div>
+                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">改枪码：</div>
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
@@ -506,38 +494,36 @@
                         <h4 class="font-semibold">枪械名称：</h4>
                         <button class="copy-btn text-xs text-deltaAccent hover:underline" data-code="改枪码：">复制代码</button>
                     </div>
-                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">
-                        改枪码：
-                    </div>
+                    <div class="code-block bg-deltaDark p-3 rounded text-xs text-green-400 break-all">改枪码：</div>
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
         </section>
 
+        <!-- 活动介绍专区 -->
         <section id="activity" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
                 <i class="fa fa-bullhorn text-deltaAccent mr-3"></i>
-                最新活动
+                活动
             </h2>
             <div class="flex gap-2 mb-4 border-b border-deltaLine pb-2 flex-wrap">
-                <button class="activity-tab active px-4 py-2 rounded-t text-sm font-medium bg-deltaAccent text-deltaDark" data-tab="s11-event">
-                    S11赛季活动
-                </button>
+                <button class="activity-tab active px-4 py-2 rounded-t text-sm font-medium bg-deltaAccent text-deltaDark" data-tab="s11-event">S11活动</button>
             </div>
             <div class="activity-panel" id="panel-s11-event">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-6">
-                    <p class="text-gray-400 text-center py-10">S11赛季活动内容待补充</p>
+                    <p class="text-gray-400 text-center py-10">敬请期待！</p>
                 </div>
             </div>
         </section>
 
+        <!-- S11赛季任务专区 -->
         <section id="season11-mission" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
                 <i class="fa fa-tasks text-deltaAccent mr-3"></i>
                 S11赛季任务
             </h2>
             <div class="bg-deltaCard border border-deltaLine rounded-lg p-6">
-                <p class="text-gray-400 text-center py-10">S11赛季任务内容待补充</p>
+                <p class="text-gray-400 text-center py-10">敬请期待！</p>
             </div>
         </section>
 
@@ -545,17 +531,13 @@
         <section id="brave-pc" class="panel-section mb-10 hidden brave-terminal">
             <h2 class="text-2xl font-bold mb-4 flex items-center text-braveGreen">
                 <i class="fa fa-terminal mr-3"></i>
-                勇敢者行动 · 电脑点位
+                勇敢者行动 · 破译电脑点位
             </h2>
-
             <div class="terminal">
                 <div class="title-bar">
-                    <span>🌐 :\勇敢者行动</span>
-                    <div class="win-btn">
-                        <span></span><span></span>
-                    </div>
+                    <span>🌐 C:\勇敢者行动</span>
+                    <div class="win-btn"><span></span><span></span></div>
                 </div>
-
                 <div class="terminal-body">
                     <div class="side-panel">
                         <svg class="pixel-icon" viewBox="0 0 32 32" fill="#00ff66">
@@ -564,7 +546,6 @@
                         </svg>
                         <div class="side-cmd">...0XD</div>
                     </div>
-
                     <div class="main-content">
                         <div class="logo-deco">
                             <div class="diamond">
@@ -575,11 +556,9 @@
                             </div>
                             <div class="hash">#### &nbsp;&nbsp;&nbsp;&nbsp; ####</div>
                         </div>
-
                         <div class="tip-text">
-                            @干员，你想查看勇敢者行动中哪个电脑的点位呢？（长按可高亮/取消高亮辅助记忆点位）
+                            糕手@干员，你想查看勇敢者行动中哪个电脑的点位呢？（长按可高亮标记/取消清除高亮标记辅助记忆点位）
                         </div>
-
                         <div class="btn-grid">
                             <button class="point-btn" data-img="总裁接收任务点.png">总裁接收任务点</button>
                             <button class="point-btn" data-img="浮力室宇航服展台.png">浮力室宇航服展台</button>
@@ -599,28 +578,21 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="footer-text">
-                    BRAVE ACTION & POINT MAP
-                </div>
+                <div class="footer-text">BRAVE ACTION & POINT MAP</div>
             </div>
         </section>
 
-        <!-- 勇敢者行动 - 暗星燃料单元点位 -->
+        <!-- 勇敢者行动 · 暗星燃料单元点位 -->
         <section id="brave-fuel" class="panel-section mb-10 hidden brave-terminal">
             <h2 class="text-2xl font-bold mb-4 flex items-center text-braveGreen">
                 <i class="fa fa-flask mr-3"></i>
                 勇敢者行动 · 暗星燃料单元点位
             </h2>
-
             <div class="terminal">
                 <div class="title-bar">
                     <span>🌐 C:\暗星燃料单元</span>
-                    <div class="win-btn">
-                        <span></span><span></span>
-                    </div>
+                    <div class="win-btn"><span></span><span></span></div>
                 </div>
-
                 <div class="terminal-body">
                     <div class="side-panel">
                         <svg class="pixel-icon" viewBox="0 0 32 32" fill="#00ff66">
@@ -630,12 +602,10 @@
                         </svg>
                         <div class="side-cmd">...FUEL</div>
                     </div>
-
                     <div class="main-content">
                         <div class="tip-text">
-                            @干员，暗星燃料刷新点位一览（长按可高亮/取消高亮辅助记忆，点击查看点位图）
+                            糕手@干员，你想查看勇敢者行动中哪个电脑的点位呢？（长按可高亮标记/取消清除高亮标记辅助记忆点位）
                         </div>      
-
                         <div class="zone-block">
                             <div class="zone-title">牢区</div>
                             <div class="btn-grid fuel-grid">
@@ -645,7 +615,6 @@
                                 <button class="point-btn" data-img="4.png">打印室外围车旁</button>
                             </div>
                         </div>
-
                         <div class="zone-block">
                             <div class="zone-title">中控楼区</div>
                             <div class="btn-grid fuel-grid">
@@ -655,7 +624,6 @@
                                 <button class="point-btn" data-img="8.png">中控楼入口左侧斜坡</button>
                             </div>
                         </div>
-
                         <div class="zone-block">
                             <div class="zone-title">宿舍楼区</div>
                             <div class="btn-grid fuel-grid">
@@ -668,17 +636,63 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="footer-text">
-                    DARK STAR FUEL & SPAWN MAP
-                </div>
+                <div class="footer-text">DARK STAR FUEL & SPAWN MAP</div>
             </div>
         </section>
 
+        <!-- 邮件专区 -->
+        <section id="mail" class="panel-section mb-10 hidden">
+            <h2 class="text-2xl font-bold mb-4 flex items-center">
+                <i class="fa fa-envelope text-deltaAccent mr-3"></i>
+                 系统邮件
+            </h2>
+            <div class="space-y-4">
+                <!-- 邮件1 -->
+                <div class="bg-deltaCard border border-deltaLine rounded-lg overflow-hidden">
+                    <div class="px-4 py-3 border-b border-deltaLine flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="font-semibold text-deltaAccent">修复问题</h3>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa fa-clock-o"></i>
+                            2026-08-30 12:00
+                        </span>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            已修复：1.关于长按标记高亮   2.手机端无法查看点位图    3.无法播放音乐    4.手机端音乐遮挡视野问题
+                        </p>
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            以上所有问题均已修复
+                        </p>
+                        <img src="修复.png" class="w-full rounded border border-deltaLine cursor-pointer hover:border-deltaAccent transition" onclick="document.getElementById('mailImg1').classList.add('show')" alt="暂无图片">
+                    </div>
+                </div>
+
+                
+
+                <!-- 邮件2 -->
+                <div class="bg-deltaCard border border-deltaLine rounded-lg overflow-hidden">
+                    <div class="px-4 py-3 border-b border-deltaLine flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="font-semibold text-deltaAccent">关于投稿改枪码</h3>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa fa-gift"></i>
+                            2026-08-30 12:00
+                        </span>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                            关于投稿三角洲改枪码方案：
+                            1.发送邮件至jamesxpmax@163.com 邮箱，主题：改枪码投稿-枪械类型(此处枪械类型指突击步枪、冲锋枪、手枪、狙击步枪、霰弹枪、射手步枪)    2.正文处填写改枪码和改枪枪械介绍
+                            3.等待审核，通过后将会上传至改枪码页面，并回复邮件！
+                        </p>
+                        <img src="改枪投稿.png" class="w-full rounded border border-deltaLine cursor-pointer hover:border-deltaAccent transition" onclick="document.getElementById('mailImg2').classList.add('show')" alt="改枪投稿">
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </main>
 
-<!-- 全局弹窗（移到body级，避免被父容器裁剪） -->
+<!-- 全局图片弹窗 -->
 <div id="imageModal" class="fixed inset-0 bg-black/85 z-[9999] hidden items-center justify-center p-4 cursor-pointer">
     <button id="closeModal" class="absolute top-4 right-4 text-white text-2xl hover:text-deltaAccent transition z-10">
         <i class="fa fa-times"></i>
@@ -694,6 +708,14 @@
 <!-- 暗星燃料弹窗 -->
 <div class="img-modal" id="fuelImgModal">
     <img id="fuelModalImg" src="" alt="点位图">
+</div>
+
+<!-- 邮件图片弹窗 -->
+<div class="img-modal" id="mailImg1" onclick="this.classList.remove('show')">
+    <img src="暂无图片.png" alt="修复">
+</div>
+<div class="img-modal" id="mailImg2" onclick="this.classList.remove('show')">
+    <img src="改枪投稿.png" alt="改枪投稿">
 </div>
 
 <!-- 右下角悬浮音乐播放器 -->
@@ -776,10 +798,11 @@
         sidebar.classList.toggle('-translate-x-full');
     });
 
-    const groupTitle = document.querySelector('.nav-group-title');
-    const navGroup = document.querySelector('.nav-group');
-    groupTitle.addEventListener('click', () => {
-        navGroup.classList.toggle('open');
+    // 侧边栏分组展开（支持多组）
+    document.querySelectorAll('.nav-group-title').forEach(title => {
+        title.addEventListener('click', () => {
+            title.closest('.nav-group').classList.toggle('open');
+        });
     });
 
     const allNavItems = document.querySelectorAll('[data-target]');
@@ -838,6 +861,7 @@
         });
     });
 
+    // 通用复制功能
     document.querySelectorAll('.copy-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const content = btn.dataset.pwd || btn.dataset.code || '';
@@ -849,6 +873,7 @@
         });
     });
 
+    // 每日密码 - API对接
     const API_URL = 'https://tmini.net/api/sjzmm';
 
     async function loadPasswords() {
@@ -935,6 +960,7 @@
         });
     }
 
+    // 图片点击放大功能
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     const closeModal = document.getElementById('closeModal');
@@ -961,7 +987,7 @@
 
     loadPasswords();
 
-    // ========== 修复后：勇敢者行动 电脑点位脚本 ==========
+    // ========== 修复后：勇敢者行动 电脑点位脚本（电脑+手机通用） ==========
     (function(){
         const buttons = document.querySelectorAll('#brave-pc .point-btn:not(.clear-btn)');
         const modal = document.getElementById('braveImgModal');
@@ -979,40 +1005,48 @@
             modal.classList.add('show');
         }
 
+        function pressStart(btn) {
+            isLongPress = false;
+            clearTimeout(pressTimer);
+            pressTimer = setTimeout(() => {
+                isLongPress = true;
+                btn.classList.toggle('marked');
+            }, LONG_PRESS_DELAY);
+        }
+
+        function pressEnd() {
+            clearTimeout(pressTimer);
+        }
+
         buttons.forEach(btn => {
-            // 桌面端点击
+            // 统一点击事件：轻点打开图片，长按则跳过
             btn.addEventListener('click', () => {
+                if (isLongPress) {
+                    isLongPress = false;
+                    return;
+                }
                 openImage(btn);
             });
 
-            // 触摸开始
-            btn.addEventListener('touchstart', () => {
-                isLongPress = false;
-                pressTimer = setTimeout(() => {
-                    isLongPress = true;
-                    btn.classList.toggle('marked');
-                }, LONG_PRESS_DELAY);
-            }, { passive: true });
-
-            // 触摸结束
-            btn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                if (pressTimer) clearTimeout(pressTimer);
-                // 不是长按就打开图片
-                if (!isLongPress) {
-                    openImage(btn);
-                }
+            // 电脑鼠标事件
+            btn.addEventListener('mousedown', (e) => {
+                if (e.button !== 0) return; // 只响应左键
+                pressStart(btn);
             });
+            btn.addEventListener('mouseup', pressEnd);
+            btn.addEventListener('mouseleave', pressEnd);
 
-            // 触摸取消
-            btn.addEventListener('touchcancel', () => {
-                if (pressTimer) clearTimeout(pressTimer);
-            });
+            // 手机触摸事件
+            btn.addEventListener('touchstart', () => pressStart(btn), { passive: true });
+            btn.addEventListener('touchend', pressEnd);
+            btn.addEventListener('touchcancel', pressEnd);
         });
 
-        // 点击弹窗关闭
-        modal.addEventListener('click', () => {
-            modal.classList.remove('show');
+        // 点击背景关闭弹窗
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
         });
 
         clearBtn.addEventListener('click', () => {
@@ -1020,7 +1054,7 @@
         });
     })();
 
-    // ========== 修复后：暗星燃料单元点位脚本 ==========
+    // ========== 修复后：暗星燃料单元点位脚本（电脑+手机通用） ==========
     (function(){
         const buttons = document.querySelectorAll('#brave-fuel .point-btn:not(.clear-btn)');
         const modal = document.getElementById('fuelImgModal');
@@ -1038,40 +1072,48 @@
             modal.classList.add('show');
         }
 
+        function pressStart(btn) {
+            isLongPress = false;
+            clearTimeout(pressTimer);
+            pressTimer = setTimeout(() => {
+                isLongPress = true;
+                btn.classList.toggle('marked');
+            }, LONG_PRESS_DELAY);
+        }
+
+        function pressEnd() {
+            clearTimeout(pressTimer);
+        }
+
         buttons.forEach(btn => {
-            // 桌面端点击
+            // 统一点击事件：轻点打开图片，长按则跳过
             btn.addEventListener('click', () => {
+                if (isLongPress) {
+                    isLongPress = false;
+                    return;
+                }
                 openImage(btn);
             });
 
-            // 触摸开始
-            btn.addEventListener('touchstart', () => {
-                isLongPress = false;
-                pressTimer = setTimeout(() => {
-                    isLongPress = true;
-                    btn.classList.toggle('marked');
-                }, LONG_PRESS_DELAY);
-            }, { passive: true });
-
-            // 触摸结束
-            btn.addEventListener('touchend', (e) => {
-                e.preventDefault();
-                if (pressTimer) clearTimeout(pressTimer);
-                // 不是长按就打开图片
-                if (!isLongPress) {
-                    openImage(btn);
-                }
+            // 电脑鼠标事件
+            btn.addEventListener('mousedown', (e) => {
+                if (e.button !== 0) return; // 只响应左键
+                pressStart(btn);
             });
+            btn.addEventListener('mouseup', pressEnd);
+            btn.addEventListener('mouseleave', pressEnd);
 
-            // 触摸取消
-            btn.addEventListener('touchcancel', () => {
-                if (pressTimer) clearTimeout(pressTimer);
-            });
+            // 手机触摸事件
+            btn.addEventListener('touchstart', () => pressStart(btn), { passive: true });
+            btn.addEventListener('touchend', pressEnd);
+            btn.addEventListener('touchcancel', pressEnd);
         });
 
-        // 点击弹窗关闭
-        modal.addEventListener('click', () => {
-            modal.classList.remove('show');
+        // 点击背景关闭弹窗
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('show');
+            }
         });
 
         clearBtn.addEventListener('click', () => {
