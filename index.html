@@ -19,6 +19,15 @@
                         deltaBlue: '#1e73be',
                         deltaLine: '#2a3644',
                         braveGreen: '#00ff66'
+                    },
+                    animation: {
+                        'pop': 'pop 0.25s ease-out',
+                    },
+                    keyframes: {
+                        pop: {
+                            '0%': { transform: 'scale(0.92)', opacity: '0.6' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        }
                     }
                 }
             }
@@ -33,7 +42,6 @@
         body { background: #0b0f14; }
         .code-block, .code-font { font-family: Consolas, 'Courier New', monospace; }
         .code-font { letter-spacing: 2px; }
-
         /* 音乐播放器自定义样式 */
         .progress-bar::-webkit-slider-thumb {
             -webkit-appearance: none;
@@ -59,7 +67,6 @@
             border-left: 3px solid #ff8a00;
             color: #ff8a00;
         }
-
         /* 侧边栏子菜单 */
         .nav-group.open .group-icon {
             transform: rotate(180deg);
@@ -72,7 +79,6 @@
         .nav-group.open .nav-submenu {
             max-height: 200px;
         }
-
         /* 勇敢者终端通用样式 */
         .brave-terminal {
             font-family: Consolas, "Courier New", monospace;
@@ -280,7 +286,6 @@
             font-size: 10px;
             opacity: 0.5;
         }
-
         /* 弹窗统一样式（移到body级，避免被裁剪） */
         .img-modal {
             position: fixed;
@@ -300,7 +305,6 @@
             box-shadow: 0 0 30px rgba(0,255,102,0.5);
             pointer-events: none;
         }
-
         /* 音乐播放器最小化模式 */
         #musicPlayer.mini {
             width: 0;
@@ -312,7 +316,10 @@
         #musicFloatBtn.show {
             display: flex;
         }
-
+        /* 随机装备动画 */
+        .animate-pop {
+            animation: pop 0.25s ease-out;
+        }
         /* 移动端适配 */
         @media (max-width: 768px) {
             .brave-terminal .terminal-body { flex-direction: column; }
@@ -343,7 +350,6 @@
     </style>
 </head>
 <body class="text-gray-200 min-h-screen">
-
 <aside id="sidebar" class="fixed left-0 top-0 h-full w-60 bg-deltaMid border-r border-deltaLine z-50 transform -translate-x-full md:translate-x-0 transition-transform">
     <!-- LOGO区域 -->
     <div class="h-16 flex items-center px-5 border-b border-deltaLine">
@@ -381,14 +387,20 @@
             <div class="nav-submenu pl-2 space-y-1 mt-1">
                 <a href="javascript:;" class="nav-subitem flex items-center px-3 py-2 rounded hover:bg-deltaCard hover:text-deltaAccent transition text-sm" data-target="brave-pc">
                     <i class="fa fa-desktop w-5 text-center text-xs"></i>
-                    <span class="ml-2">勇敢者行动破译电脑点位</span>
+                    <span class="ml-2">破译电脑点位</span>
                 </a>
                 <a href="javascript:;" class="nav-subitem flex items-center px-3 py-2 rounded hover:bg-deltaCard hover:text-deltaAccent transition text-sm" data-target="brave-fuel">
                     <i class="fa fa-flask w-5 text-center text-xs"></i>
-                    <span class="ml-2">暗星燃料单元点位</span>
+                    <span class="ml-2">暗星燃料单元</span>
                 </a>
             </div>
         </div>
+
+        <!-- 随机装备导航入口 -->
+        <a href="javascript:;" class="nav-item flex items-center px-3 py-2.5 rounded hover:bg-deltaCard hover:text-deltaAccent transition mt-2" data-target="random-equip">
+            <i class="fa fa-dice w-6 text-center"></i>
+            <span class="ml-2">随机装备</span>
+        </a>
 
         <!-- 官方邮件导航入口（侧边栏最底部） -->
         <a href="javascript:;" class="nav-item flex items-center px-3 py-2.5 rounded hover:bg-deltaCard hover:text-deltaAccent transition mt-2" data-target="mail">
@@ -397,11 +409,9 @@
         </a>
     </nav>
 </aside>
-
 <button id="menuBtn" class="md:hidden fixed top-4 left-4 z-50 bg-deltaCard p-2 rounded border border-deltaLine">
     <i class="fa fa-bars text-deltaAccent"></i>
 </button>
-
 <main class="md:ml-60 min-h-screen">
     <div class="max-w-6xl mx-auto p-4 md:p-8">
         <!-- 每日密码专区 -->
@@ -416,7 +426,6 @@
             </div>
             <div id="passwordList" class="grid gap-4 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto hidden"></div>
         </section>
-
         <!-- 改枪码专区 -->
         <section id="guncode" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
@@ -431,7 +440,6 @@
                 <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="dmr">射手步枪</button>
                 <button class="gun-tab px-4 py-2 rounded-t text-sm font-medium bg-deltaCard text-gray-300 hover:text-white" data-tab="shotgun">霰弹枪</button>
             </div>
-
             <div class="gun-panel" id="panel-ar">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -444,7 +452,6 @@
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
-
             <div class="gun-panel hidden" id="panel-smg">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -455,7 +462,6 @@
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
-
             <div class="gun-panel hidden" id="panel-sr">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -466,7 +472,6 @@
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
-
             <div class="gun-panel hidden" id="panel-pistol">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -477,7 +482,6 @@
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
-
             <div class="gun-panel hidden" id="panel-dmr">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -488,7 +492,6 @@
                     <p class="text-xs text-gray-500 mt-2">改枪介绍：</p>
                 </div>
             </div>
-
             <div class="gun-panel hidden" id="panel-shotgun">
                 <div class="bg-deltaCard border border-deltaLine rounded-lg p-4">
                     <div class="flex justify-between items-start mb-2">
@@ -500,7 +503,6 @@
                 </div>
             </div>
         </section>
-
         <!-- 活动介绍专区 -->
         <section id="activity" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
@@ -516,7 +518,6 @@
                 </div>
             </div>
         </section>
-
         <!-- S11赛季任务专区 -->
         <section id="season11-mission" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
@@ -527,7 +528,6 @@
                 <p class="text-gray-400 text-center py-10">敬请期待！</p>
             </div>
         </section>
-
         <!-- 勇敢者行动 - 电脑点位专区 -->
         <section id="brave-pc" class="panel-section mb-10 hidden brave-terminal">
             <h2 class="text-2xl font-bold mb-4 flex items-center text-braveGreen">
@@ -582,7 +582,6 @@
                 <div class="footer-text">BRAVE ACTION & POINT MAP</div>
             </div>
         </section>
-
         <!-- 勇敢者行动 · 暗星燃料单元点位 -->
         <section id="brave-fuel" class="panel-section mb-10 hidden brave-terminal">
             <h2 class="text-2xl font-bold mb-4 flex items-center text-braveGreen">
@@ -641,6 +640,73 @@
             </div>
         </section>
 
+        <!-- 随机装备生成器专区 -->
+        <section id="random-equip" class="panel-section mb-10 hidden">
+            <h2 class="text-2xl font-bold mb-4 flex items-center">
+                <i class="fa fa-dice text-deltaAccent mr-3"></i>
+                随机装备生成器
+            </h2>
+
+            <!-- 一键随机按钮 -->
+            <div class="flex justify-center mb-8">
+                <button id="randomAllBtn" class="px-10 py-3.5 bg-deltaAccent text-deltaDark font-bold rounded-lg hover:brightness-110 transition text-lg shadow-lg active:scale-95">
+                    <i class="fa fa-refresh mr-2"></i>一键随机全部
+                </button>
+            </div>
+
+            <!-- 装备卡片网格 -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-5 mb-6">
+                <!-- 干员 -->
+                <div class="bg-deltaCard border border-deltaLine rounded-xl p-6 flex flex-col items-center text-center">
+                    <div class="text-xs text-gray-400 mb-2">干员</div>
+                    <div id="val-operator" class="font-semibold text-lg text-white min-h-[2rem]">—</div>
+                </div>
+                <!-- 武器 -->
+                <div class="bg-deltaCard border border-deltaLine rounded-xl p-6 flex flex-col items-center text-center">
+                    <div class="text-xs text-gray-400 mb-2">武器</div>
+                    <div id="val-weapon" class="font-semibold text-lg text-white min-h-[2rem]">—</div>
+                </div>
+                <!-- 头盔 -->
+                <div class="bg-deltaCard border border-deltaLine rounded-xl p-6 flex flex-col items-center text-center">
+                    <div class="text-xs text-gray-400 mb-2">头盔</div>
+                    <div id="val-helmet" class="font-semibold text-lg text-white min-h-[2rem]">—</div>
+                </div>
+                <!-- 护甲 -->
+                <div class="bg-deltaCard border border-deltaLine rounded-xl p-6 flex flex-col items-center text-center">
+                    <div class="text-xs text-gray-400 mb-2">护甲</div>
+                    <div id="val-armor" class="font-semibold text-lg text-white min-h-[2rem]">—</div>
+                </div>
+                <!-- 胸挂 -->
+                <div class="bg-deltaCard border border-deltaLine rounded-xl p-6 flex flex-col items-center text-center">
+                    <div class="text-xs text-gray-400 mb-2">胸挂</div>
+                    <div id="val-vest" class="font-semibold text-lg text-white min-h-[2rem]">—</div>
+                </div>
+                <!-- 背包 -->
+                <div class="bg-deltaCard border border-deltaLine rounded-xl p-6 flex flex-col items-center text-center">
+                    <div class="text-xs text-gray-400 mb-2">背包</div>
+                    <div id="val-backpack" class="font-semibold text-lg text-white min-h-[2rem]">—</div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="flex justify-center gap-4 mb-8">
+                <button id="resetEquipBtn" class="text-sm text-gray-400 hover:text-deltaAccent transition px-4 py-2">
+                    <i class="fa fa-undo mr-1"></i>重置结果
+                </button>
+                <button id="clearHistoryBtn" class="text-sm text-red-400 hover:text-red-300 transition px-4 py-2">
+                    <i class="fa fa-trash mr-1"></i>清空历史记录
+                </button>
+            </div>
+
+            <!-- 历史抽取记录区域 -->
+            <div class="mb-4">
+                <h3 class="text-lg font-bold text-deltaAccent mb-4"><i class="fa fa-history mr-2"></i>历史抽取记录</h3>
+                <div id="historyWrap" class="grid gap-3">
+                    <div class="text-gray-500 text-sm">暂无抽取记录</div>
+                </div>
+            </div>
+        </section>
+
         <!-- 邮件专区 -->
         <section id="mail" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
@@ -667,9 +733,7 @@
                         <img src="修复.png" class="w-full rounded border border-deltaLine cursor-pointer hover:border-deltaAccent transition" onclick="document.getElementById('mailImg1').classList.add('show')" alt="暂无图片">
                     </div>
                 </div>
-
                 
-
                 <!-- 邮件2 -->
                 <div class="bg-deltaCard border border-deltaLine rounded-lg overflow-hidden">
                     <div class="px-4 py-3 border-b border-deltaLine flex justify-between items-center flex-wrap gap-2">
@@ -688,11 +752,28 @@
                         <img src="改枪投稿.png" class="w-full rounded border border-deltaLine cursor-pointer hover:border-deltaAccent transition" onclick="document.getElementById('mailImg2').classList.add('show')" alt="改枪投稿">
                     </div>
                 </div>
+                <!-- 邮件3 -->
+                <div class="bg-deltaCard border border-deltaLine rounded-lg overflow-hidden">
+                    <div class="px-4 py-3 border-b border-deltaLine flex justify-between items-center flex-wrap gap-2">
+                        <h3 class="font-semibold text-deltaAccent">新增功能</h3>
+                        <span class="text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa fa-gift"></i>
+                            2026-08-30 14:00
+                        </span>
+                    </div>
+                    <div class="p-4 space-y-3">
+                        <p class="text-sm text-gray-300 leading-relaxed">
+                           新增功能：
+                           1.随机装备抽取
+                           2.邮件功能
+                           
+                        </p>               
+                    </div>
+                </div>
             </div>
         </section>
     </div>
 </main>
-
 <!-- 全局图片弹窗 -->
 <div id="imageModal" class="fixed inset-0 bg-black/85 z-[9999] hidden items-center justify-center p-4 cursor-pointer">
     <button id="closeModal" class="absolute top-4 right-4 text-white text-2xl hover:text-deltaAccent transition z-10">
@@ -700,17 +781,14 @@
     </button>
     <img id="modalImage" class="max-w-[90vw] max-h-[90vh] rounded-lg" src="" alt="位置大图">
 </div>
-
 <!-- 勇敢者点位弹窗 -->
 <div class="img-modal" id="braveImgModal">
     <img id="braveModalImg" src="" alt="点位图">
 </div>
-
 <!-- 暗星燃料弹窗 -->
 <div class="img-modal" id="fuelImgModal">
     <img id="fuelModalImg" src="" alt="点位图">
 </div>
-
 <!-- 邮件图片弹窗 -->
 <div class="img-modal" id="mailImg1" onclick="this.classList.remove('show')">
     <img src="暂无图片.png" alt="修复">
@@ -718,7 +796,6 @@
 <div class="img-modal" id="mailImg2" onclick="this.classList.remove('show')">
     <img src="改枪投稿.png" alt="改枪投稿">
 </div>
-
 <!-- 右下角悬浮音乐播放器 -->
 <div id="musicPlayer" class="fixed bottom-4 right-4 w-72 bg-deltaCard border border-deltaLine rounded-xl overflow-hidden shadow-2xl z-40 transition-all">
     <div class="px-4 py-3 border-b border-deltaLine flex items-center justify-between">
@@ -736,7 +813,6 @@
             </button>
         </div>
     </div>
-
     <div class="px-4 py-3">
         <div class="text-center mb-2">
             <div id="songName" class="text-sm font-medium truncate text-deltaAccent">选择一首音乐</div>
@@ -746,7 +822,6 @@
         </div>
         <input type="range" id="progress" class="progress-bar w-full h-1 bg-deltaLine rounded-full appearance-none cursor-pointer" value="0" min="0" max="100">
     </div>
-
     <div class="px-4 pb-3 flex items-center justify-center gap-5">
         <button id="prevBtn" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-deltaMid hover:text-deltaAccent transition text-sm">
             <i class="fa fa-step-backward"></i>
@@ -758,13 +833,11 @@
             <i class="fa fa-step-forward"></i>
         </button>
     </div>
-
     <div class="px-4 pb-3 flex items-center gap-2 text-xs">
         <i class="fa fa-volume-up text-gray-400 w-4 text-center"></i>
         <input type="range" id="volume" class="volume-bar flex-1 h-1 bg-deltaLine rounded-full appearance-none cursor-pointer" value="80" min="0" max="100">
         <span id="volumeText" class="text-xs text-gray-500 w-7">80%</span>
     </div>
-
     <div class="border-t border-deltaLine">
         <div class="px-4 py-2 text-xs text-gray-500 flex justify-between items-center cursor-pointer hover:bg-deltaMid/50 transition" id="listToggle">
             <span>播放列表</span>
@@ -774,7 +847,6 @@
             <!-- 音乐项动态生成 -->
         </div>
     </div>
-
     <div class="px-4 py-2 border-t border-deltaLine">
         <label class="flex items-center justify-center w-full py-1.5 border border-dashed border-deltaLine rounded text-xs text-gray-400 hover:text-deltaAccent hover:border-deltaAccent transition cursor-pointer">
             <i class="fa fa-plus mr-2"></i>
@@ -783,14 +855,11 @@
         </label>
     </div>
 </div>
-
 <!-- 最小化悬浮按钮 -->
 <button id="musicFloatBtn" class="fixed bottom-4 right-4 w-12 h-12 rounded-full bg-deltaAccent text-deltaDark shadow-lg z-40 hidden items-center justify-center hover:brightness-110 transition">
     <i class="fa fa-music"></i>
 </button>
-
 <audio id="audio">
-
 <script>
     // ========== 工具站原有脚本 ==========
     const menuBtn = document.getElementById('menuBtn');
@@ -798,38 +867,31 @@
     menuBtn.addEventListener('click', () => {
         sidebar.classList.toggle('-translate-x-full');
     });
-
     // 侧边栏分组展开（支持多组）
     document.querySelectorAll('.nav-group-title').forEach(title => {
         title.addEventListener('click', () => {
             title.closest('.nav-group').classList.toggle('open');
         });
     });
-
     const allNavItems = document.querySelectorAll('[data-target]');
     const panels = document.querySelectorAll('.panel-section');
-
     allNavItems.forEach(item => {
         item.addEventListener('click', () => {
             const target = item.dataset.target;
             if (!target) return;
-
             document.querySelectorAll('.nav-item, .nav-subitem').forEach(nav => {
                 nav.classList.remove('bg-deltaCard', 'text-deltaAccent');
                 nav.classList.add('hover:bg-deltaCard', 'hover:text-deltaAccent');
             });
             item.classList.add('bg-deltaCard', 'text-deltaAccent');
             item.classList.remove('hover:bg-deltaCard', 'hover:text-deltaAccent');
-
             panels.forEach(panel => panel.classList.add('hidden'));
             document.getElementById(target).classList.remove('hidden');
-
             if (window.innerWidth < 768) {
                 sidebar.classList.add('-translate-x-full');
             }
         });
     });
-
     const tabs = document.querySelectorAll('.gun-tab');
     const gunPanels = document.querySelectorAll('.gun-panel');
     tabs.forEach(tab => {
@@ -845,7 +907,6 @@
             document.getElementById('panel-' + target).classList.remove('hidden');
         });
     });
-
     const activityTabs = document.querySelectorAll('.activity-tab');
     const activityPanels = document.querySelectorAll('.activity-panel');
     activityTabs.forEach(tab => {
@@ -861,7 +922,6 @@
             document.getElementById('panel-' + target).classList.remove('hidden');
         });
     });
-
     // 通用复制功能
     document.querySelectorAll('.copy-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -873,10 +933,8 @@
             });
         });
     });
-
     // 每日密码 - API对接
     const API_URL = 'https://tmini.net/api/sjzmm';
-
     async function loadPasswords() {
         try {
             const res = await fetch(API_URL);
@@ -894,17 +952,14 @@
             console.error(e);
         }
     }
-
     function parseData(text) {
         const lines = text.trim().split('\n').map(l => l.trim());
         const dateLine = lines.find(l => l.startsWith('更新日期:'));
         const updateDate = dateLine ? dateLine.replace('更新日期:', '') : '';
-
         const blocks = text.split('--------------------------------------------------').filter(b => b.trim());
         const items = blocks.map(block => {
             const blockLines = block.trim().split('\n').map(l => l.trim());
             const data = { images: [] };
-
             blockLines.forEach(line => {
                 if (line.startsWith('地图名称:')) {
                     data.mapName = line.replace('地图名称:', '').trim();
@@ -919,10 +974,8 @@
             });
             return data;
         }).filter(item => item.mapName);
-
         return { updateDate, items };
     }
-
     function renderItems(items) {
         const container = document.getElementById('passwordList');
         container.innerHTML = items.map(item => `
@@ -948,7 +1001,6 @@
                 </div>
             </div>
         `).join('');
-
         document.querySelectorAll('#passwordList .copy-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const content = btn.dataset.pwd || btn.dataset.code || '';
@@ -960,12 +1012,10 @@
             });
         });
     }
-
     // 图片点击放大功能
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
     const closeModal = document.getElementById('closeModal');
-
     document.getElementById('passwordList').addEventListener('click', (e) => {
         if (e.target.tagName === 'IMG') {
             modalImg.src = e.target.src;
@@ -973,39 +1023,32 @@
             modal.classList.add('flex');
         }
     });
-
     closeModal.addEventListener('click', () => {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
     });
-
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
     });
-
     loadPasswords();
-
     // ========== 修复后：勇敢者行动 电脑点位脚本（电脑+手机通用） ==========
     (function(){
         const buttons = document.querySelectorAll('#brave-pc .point-btn:not(.clear-btn)');
         const modal = document.getElementById('braveImgModal');
         const modalImg = document.getElementById('braveModalImg');
         const clearBtn = document.getElementById('clearMark');
-
         let isLongPress = false;
         let pressTimer = null;
         const LONG_PRESS_DELAY = 500;
-
         function openImage(btn) {
             const imgSrc = btn.dataset.img;
             if (!imgSrc || imgSrc === '') return;
             modalImg.src = imgSrc;
             modal.classList.add('show');
         }
-
         function pressStart(btn) {
             isLongPress = false;
             clearTimeout(pressTimer);
@@ -1014,11 +1057,9 @@
                 btn.classList.toggle('marked');
             }, LONG_PRESS_DELAY);
         }
-
         function pressEnd() {
             clearTimeout(pressTimer);
         }
-
         buttons.forEach(btn => {
             // 统一点击事件：轻点打开图片，长按则跳过
             btn.addEventListener('click', () => {
@@ -1028,7 +1069,6 @@
                 }
                 openImage(btn);
             });
-
             // 电脑鼠标事件
             btn.addEventListener('mousedown', (e) => {
                 if (e.button !== 0) return; // 只响应左键
@@ -1036,43 +1076,36 @@
             });
             btn.addEventListener('mouseup', pressEnd);
             btn.addEventListener('mouseleave', pressEnd);
-
             // 手机触摸事件
             btn.addEventListener('touchstart', () => pressStart(btn), { passive: true });
             btn.addEventListener('touchend', pressEnd);
             btn.addEventListener('touchcancel', pressEnd);
         });
-
         // 点击背景关闭弹窗
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.remove('show');
             }
         });
-
         clearBtn.addEventListener('click', () => {
             buttons.forEach(btn => btn.classList.remove('marked'));
         });
     })();
-
     // ========== 修复后：暗星燃料单元点位脚本（电脑+手机通用） ==========
     (function(){
         const buttons = document.querySelectorAll('#brave-fuel .point-btn:not(.clear-btn)');
         const modal = document.getElementById('fuelImgModal');
         const modalImg = document.getElementById('fuelModalImg');
         const clearBtn = document.getElementById('fuelClearMark');
-
         let isLongPress = false;
         let pressTimer = null;
         const LONG_PRESS_DELAY = 500;
-
         function openImage(btn) {
             const imgSrc = btn.dataset.img;
             if (!imgSrc || imgSrc === '') return;
             modalImg.src = imgSrc;
             modal.classList.add('show');
         }
-
         function pressStart(btn) {
             isLongPress = false;
             clearTimeout(pressTimer);
@@ -1081,11 +1114,9 @@
                 btn.classList.toggle('marked');
             }, LONG_PRESS_DELAY);
         }
-
         function pressEnd() {
             clearTimeout(pressTimer);
         }
-
         buttons.forEach(btn => {
             // 统一点击事件：轻点打开图片，长按则跳过
             btn.addEventListener('click', () => {
@@ -1095,7 +1126,6 @@
                 }
                 openImage(btn);
             });
-
             // 电脑鼠标事件
             btn.addEventListener('mousedown', (e) => {
                 if (e.button !== 0) return; // 只响应左键
@@ -1103,23 +1133,187 @@
             });
             btn.addEventListener('mouseup', pressEnd);
             btn.addEventListener('mouseleave', pressEnd);
-
             // 手机触摸事件
             btn.addEventListener('touchstart', () => pressStart(btn), { passive: true });
             btn.addEventListener('touchend', pressEnd);
             btn.addEventListener('touchcancel', pressEnd);
         });
-
         // 点击背景关闭弹窗
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.classList.remove('show');
             }
         });
-
         clearBtn.addEventListener('click', () => {
             buttons.forEach(btn => btn.classList.remove('marked'));
         });
+    })();
+
+    // ========== 随机装备生成器脚本 ==========
+    (function(){
+        // 装备数据库
+        const equipData = {
+            operator: [
+                '红狼', '威龙', '无名', '疾风', '蜂医', '蝶', '蛊', '旅人',
+                '牧羊人', '乌鲁鲁', '深蓝', '比特', '液氮', '露娜', '骇爪',
+                '银翼', '回响'
+            ],
+            weapon: [
+                "725双管霰弹枪", "Vector冲锋枪", "MP7冲锋枪", "P90冲锋枪",
+                "K437突击步枪", "QCQ171冲锋枪", "AS VaI突击步枪",
+                "SR-3M紧凑突击步枪", "G18", "MCX LT突击步枪", "MK47突击步枪",
+                "M14射手步枪", "ASh-12战斗步枪", "勇士冲锋枪", "S12K霰弹枪",
+                "AR57突击步枪", "SVCH精确射手步枪", "MK4冲锋枪", "K416突击步枪",
+                "M7战斗步枪", "MP5冲锋枪", "SG552突击步枪", "PTR-32突击步枪",
+                "M4A1突击步枪", "腾龙突击步枪", "M1014霰弹枪", "AKM突击步枪",
+                "SKS射手步枪", "AUG突击步枪", "SCAR-H战斗步枪", "野牛冲锋枪",
+                "KC17突击步枪", "AK-12突击步枪", "RM277突击步枪", "G3战斗步枪",
+                "SMG-45冲锋枪", "QBZ95-1突击步枪", "Mini-14射手步枪",
+                "SR-25射手步枪", "PKM通用机枪", "VSS射手步枪", "AKS-74U突击步枪",
+                "M16A4突击步枪", "93R", "CAR-15突击步枪", "复合弓",
+                "SVD狙击步枪", "PSG-1射手步枪", "QJB201轻机枪", "M250通用机枪",
+                "M249轻机枪", "M1911", "SR9射手步枪", "UZI冲锋枪",
+                "QSZ92G", "G17", "沙漠之鹰", "M870霰弹枪", "M82狙击步枪",
+                "357左轮", "杠杆式步枪", "FS-12霰弹枪", "AWM狙击步枪",
+                "R93狙击步枪", "M700狙击步枪", "SV-98狙击步枪"
+            ],
+            helmet: [
+                'H70 精英头盔（六级）', 'H70 夜视精英头盔（六级）',
+                'DICH-9重型头盔（六级）', 'GT5 指挥官头盔（六级）',
+                'GN 久战重型夜视头盔（五级）', 'GN 重型夜视头盔（五级）',
+                'GN 重型头盔（五级）', 'DICH-1战术头盔（五级）',
+                'H09 防暴头盔（五级）', 'Mask-1铁壁头盔（五级）',
+                'GT1 战术头盔（四级）', 'DICH 训练头盔（四级）',
+                'MHS 战术头盔（四级）', 'D6 战术头盔（四级）',
+                'MC201 防弹头盔（三级）', 'DAS 防弹头盔（三级）',
+                'H07 战术头盔（三级）', '防暴头盔（三级）',
+                'MC 防弹头盔（二级）', 'DRO 战术头盔（二级）',
+                'H01 战术头盔（二级）', '复古摩托头盔（二级）',
+                '户外棒球帽（一级）', '奔尼帽（一级）',
+                '安保头盔（一级）', '老式钢盔（一级）'
+            ],
+            armor: [
+                '金刚防弹衣（六级）', '特里克MAS2.0装甲（六级）',
+                'HA-2重型防弹衣（六级）', '泰坦防弹装甲（六级）',
+                '精英防弹背心（五级）', '重型突击背心（五级）',
+                'Hvk-2防弹衣（五级）', 'FS复合防弹衣（五级）',
+                'HMP特勤防弹衣（四级）', 'MK-2战术背心（四级）',
+                'DT-AVS防弹衣（四级）', '武士防弹背心（四级）',
+                '突击手防弹背心（四级）',
+                'TG-H防弹衣（三级）', '射手战术背心（三级）',
+                'Hvk快拆防弹衣（三级）', '制式防弹背心（三级）',
+                '通用战术背心（二级）', 'HT战术背心（二级）',
+                '简易防刺服（二级）', 'TG战术防弹衣（二级）',
+                '摩托马甲（一级）', '尼龙防弹衣（一级）',
+                '轻型防弹衣（一级）', '安保防弹衣（一级）'
+            ],
+            vest: [
+                'DAR突击手胸挂（五级）', '黑鹰野战胸挂（五级）', '飓风战术胸挂（五级）',
+                'GIR野战胸挂（四级）', 'DRC先进侦察胸挂（四级）',
+                '突击者战术背心（四级）', '强袭战术背心（四级）',
+                'G01战术弹挂（三级）', 'DSA战术胸挂（三级）',
+                'HD3战术胸挂（三级）', '简易携行弹挂（三级）',
+                '通用战术胸挂（二级）', 'G01轻型胸挂（二级）',
+                'HK3便携胸挂（二级）', '尼龙挎包（二级）',
+                '简易挂载包（一级）', '轻型战术胸挂（一级）',
+                '快速侦察胸挂（一级）', '便携胸包（一级）'
+            ],
+            backpack: [
+                'GTO重型战术包（六级）', 'D7战术背包（六级）', '重型登山包（六级）',
+                'GT5野战背包（五级）', 'D3战术登山包（五级）',
+                'HLS-2重型背包（五级）', 'ALS背负系统（五级）',
+                '生存战术背包（四级）', 'GT1户外登山包（四级）',
+                'D2战术登山包（四级）', '野战徒步背包（四级）',
+                'MAP侦察背包（四级）',
+                '雨林猎手背包（三级）', 'GA野战背包（三级）',
+                'DASH战术背包（三级）', '3H战术背包（三级）',
+                '大型登山包（三级）',
+                '露营背包（二级）', '突袭战术背包（二级）',
+                '战术快拆背包（二级）', '轻型户外背包（二级）',
+                '帆布背囊（一级）', 'DG运动背包（一级）',
+                '旅行背包（一级）', '运动背包（一级）', '斜挎包（一级）'
+            ]
+        };
+
+        const typeMap = {
+            operator: 'val-operator',
+            weapon: 'val-weapon',
+            helmet: 'val-helmet',
+            armor: 'val-armor',
+            vest: 'val-vest',
+            backpack: 'val-backpack'
+        };
+
+        // 本地历史读写
+        function getHistory(){
+            let raw = localStorage.getItem("equipHistory");
+            return raw ? JSON.parse(raw) : [];
+        }
+        function saveHistory(list){
+            localStorage.setItem("equipHistory", JSON.stringify(list));
+        }
+        function renderHistory(){
+            const wrap = document.getElementById("historyWrap");
+            const list = getHistory();
+            if(list.length === 0){
+                wrap.innerHTML = `<div class="text-gray-500 text-sm">暂无抽取记录</div>`;
+                return;
+            }
+            let html = "";
+            list.forEach(item=>{
+                html += `
+                <div class="bg-deltaCard border border-deltaLine rounded-lg p-3">
+                    <div class="text-xs text-gray-400 mb-1">${item.time}</div>
+                    <div class="text-sm leading-relaxed text-gray-300">
+                        干员：${item.operator}｜武器：${item.weapon}<br>
+                        头盔：${item.helmet}｜护甲：${item.armor}<br>
+                        胸挂：${item.vest}｜背包：${item.backpack}
+                    </div>
+                </div>`;
+            });
+            wrap.innerHTML = html;
+        }
+
+        // 随机逻辑
+        function randomAll() {
+            const result = {};
+            Object.keys(typeMap).forEach(type => {
+                const list = equipData[type];
+                const item = list[Math.floor(Math.random() * list.length)];
+                result[type] = item;
+                const el = document.getElementById(typeMap[type]);
+                el.textContent = item;
+                el.classList.remove('animate-pop');
+                void el.offsetWidth;
+                el.classList.add('animate-pop');
+            });
+
+            // 存入历史
+            const history = getHistory();
+            result.time = new Date().toLocaleString();
+            history.unshift(result);
+            if(history.length > 15) history.pop();
+            saveHistory(history);
+            renderHistory();
+        }
+
+        function resetEquip() {
+            Object.values(typeMap).forEach(id => {
+                document.getElementById(id).textContent = '—';
+            });
+        }
+
+        function clearHistory(){
+            localStorage.removeItem("equipHistory");
+            renderHistory();
+        }
+
+        document.getElementById('randomAllBtn').addEventListener('click', randomAll);
+        document.getElementById('resetEquipBtn').addEventListener('click', resetEquip);
+        document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
+
+        // 页面加载渲染历史
+        renderHistory();
     })();
 
     // ========== 音乐播放器脚本 ==========
@@ -1139,7 +1333,6 @@
     const modeBtn = document.getElementById('modeBtn');
     const modeText = document.getElementById('modeText');
     const listToggle = document.getElementById('listToggle');
-
     const defaultMusic = [
         { name: '背景音乐 - 硬通货-三角洲', url: '硬通货-三角洲.mp3' },
         { name: '背景音乐 - GOT YOU', url: 'GOT YOU (归零) - 三角洲行动、Lana Mel.、汪晨蕊.mp3' },
@@ -1153,26 +1346,22 @@
         { name: '背景音乐 - Dawn', url: '三角洲行动&Lithium Done-Dawn (黎明将至).mp3' },
         { name: '背景音乐 - 星河追梦', url: '星河追梦 (Beyond the Stars) - 三角洲行动.mp3' }
     ];
-
     let playlist = [...defaultMusic];
     let currentIndex = -1;
     let playMode = 0;
     const modes = ['列表循环', '单曲循环'];
-
     renderList();
     if (playlist.length > 0) {
         songName.textContent = playlist[0].name;
         currentIndex = 0;
         audio.src = playlist[0].url;
     }
-
     listToggle.addEventListener('click', () => {
         musicList.classList.toggle('hidden');
         const icon = countText.querySelector('i');
         icon.classList.toggle('fa-chevron-up');
         icon.classList.toggle('fa-chevron-down');
     });
-
     fileInput.addEventListener('change', (e) => {
         const files = Array.from(e.target.files);
         files.forEach(file => {
@@ -1188,7 +1377,6 @@
         }
         fileInput.value = '';
     });
-
     function renderList() {
         musicList.innerHTML = playlist.map((item, index) => `
             <div class="music-item px-4 py-2 text-xs cursor-pointer hover:bg-deltaMid transition flex items-center justify-between ${index === currentIndex ? 'active' : ''}" data-index="${index}">
@@ -1199,14 +1387,12 @@
             </div>
         `).join('');
         countText.innerHTML = `${playlist.length} 首 <i class="fa fa-chevron-up ml-1"></i>`;
-
         document.querySelectorAll('#musicList .music-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 if (e.target.closest('.del-btn')) return;
                 playMusic(parseInt(item.dataset.index));
             });
         });
-
         document.querySelectorAll('#musicList .del-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.stopPropagation();
@@ -1234,7 +1420,6 @@
             });
         });
     }
-
     function playMusic(index) {
         if (index < 0 || index >= playlist.length) return;
         currentIndex = index;
@@ -1244,7 +1429,6 @@
         playBtn.innerHTML = '<i class="fa fa-pause"></i>';
         renderList();
     }
-
     playBtn.addEventListener('click', () => {
         if (playlist.length === 0) return;
         if (audio.paused) {
@@ -1255,30 +1439,25 @@
             playBtn.innerHTML = '<i class="fa fa-play"></i>';
         }
     });
-
     prevBtn.addEventListener('click', () => {
         if (playlist.length === 0) return;
         let idx = currentIndex - 1;
         if (idx < 0) idx = playlist.length - 1;
         playMusic(idx);
     });
-
     nextBtn.addEventListener('click', () => {
         if (playlist.length === 0) return;
         nextSong();
     });
-
     function nextSong() {
         let idx = currentIndex + 1;
         if (idx >= playlist.length) idx = 0;
         playMusic(idx);
     }
-
     modeBtn.addEventListener('click', () => {
         playMode = (playMode + 1) % 2;
         modeText.textContent = modes[playMode];
     });
-
     audio.addEventListener('ended', () => {
         if (playMode === 1) {
             audio.currentTime = 0;
@@ -1287,41 +1466,34 @@
             nextSong();
         }
     });
-
     audio.addEventListener('timeupdate', () => {
         if (audio.duration) {
             progress.value = (audio.currentTime / audio.duration) * 100;
             currentTime.textContent = formatTime(audio.currentTime);
         }
     });
-
     audio.addEventListener('loadedmetadata', () => {
         totalTime.textContent = formatTime(audio.duration);
     });
-
     progress.addEventListener('input', () => {
         if (audio.duration) {
             audio.currentTime = (progress.value / 100) * audio.duration;
         }
     });
-
     volume.addEventListener('input', () => {
         audio.volume = volume.value / 100;
         volumeText.textContent = `${volume.value}%`;
     });
     audio.volume = 0.8;
-
     function formatTime(sec) {
         const m = Math.floor(sec / 60).toString().padStart(2, '0');
         const s = Math.floor(sec % 60).toString().padStart(2, '0');
         return `${m}:${s}`;
     }
-
     // ========== 音乐播放器最小化逻辑 ==========
     const musicPlayer = document.getElementById('musicPlayer');
     const musicFloatBtn = document.getElementById('musicFloatBtn');
     const minimizeBtn = document.getElementById('minimizeBtn');
-
     function minimizeMusic() {
         musicPlayer.classList.add('mini');
         musicFloatBtn.classList.add('show');
@@ -1330,20 +1502,16 @@
         musicPlayer.classList.remove('mini');
         musicFloatBtn.classList.remove('show');
     }
-
     minimizeBtn.addEventListener('click', minimizeMusic);
     musicFloatBtn.addEventListener('click', expandMusic);
-
     if (window.innerWidth < 768) {
         minimizeMusic();
     }
-
     window.addEventListener('resize', () => {
         if (window.innerWidth < 768 && !musicPlayer.classList.contains('mini')) {
             minimizeMusic();
         }
     });
 </script>
-
 </body>
 </html>
