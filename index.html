@@ -370,7 +370,7 @@
         </a>
         <a href="javascript:;" class="nav-item flex items-center px-3 py-2.5 rounded hover:bg-deltaCard hover:text-deltaAccent transition" data-target="activity">
             <i class="fa fa-bullhorn w-6 text-center"></i>
-            <span class="ml-2">最新活动</span>
+            <span class="ml-2">活动</span>
         </a>
         <a href="javascript:;" class="nav-item flex items-center px-3 py-2.5 rounded hover:bg-deltaCard hover:text-deltaAccent transition" data-target="season11-mission">
             <i class="fa fa-tasks w-6 text-center"></i>
@@ -395,13 +395,11 @@
                 </a>
             </div>
         </div>
-
         <!-- 随机装备导航入口 -->
         <a href="javascript:;" class="nav-item flex items-center px-3 py-2.5 rounded hover:bg-deltaCard hover:text-deltaAccent transition mt-2" data-target="random-equip">
             <i class="fa fa-dice w-6 text-center"></i>
             <span class="ml-2">随机装备</span>
         </a>
-
         <!-- 官方邮件导航入口（侧边栏最底部） -->
         <a href="javascript:;" class="nav-item flex items-center px-3 py-2.5 rounded hover:bg-deltaCard hover:text-deltaAccent transition mt-2" data-target="mail">
             <i class="fa fa-envelope w-6 text-center"></i>
@@ -639,21 +637,18 @@
                 <div class="footer-text">DARK STAR FUEL & SPAWN MAP</div>
             </div>
         </section>
-
         <!-- 随机装备生成器专区 -->
         <section id="random-equip" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
                 <i class="fa fa-dice text-deltaAccent mr-3"></i>
                 随机装备生成器
             </h2>
-
             <!-- 一键随机按钮 -->
             <div class="flex justify-center mb-8">
                 <button id="randomAllBtn" class="px-10 py-3.5 bg-deltaAccent text-deltaDark font-bold rounded-lg hover:brightness-110 transition text-lg shadow-lg active:scale-95">
                     <i class="fa fa-refresh mr-2"></i>一键随机全部
                 </button>
             </div>
-
             <!-- 装备卡片网格 -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-5 mb-6">
                 <!-- 干员 -->
@@ -687,7 +682,6 @@
                     <div id="val-backpack" class="font-semibold text-lg text-white min-h-[2rem]">—</div>
                 </div>
             </div>
-
             <!-- 操作按钮 -->
             <div class="flex justify-center gap-4 mb-8">
                 <button id="resetEquipBtn" class="text-sm text-gray-400 hover:text-deltaAccent transition px-4 py-2">
@@ -697,7 +691,6 @@
                     <i class="fa fa-trash mr-1"></i>清空历史记录
                 </button>
             </div>
-
             <!-- 历史抽取记录区域 -->
             <div class="mb-4">
                 <h3 class="text-lg font-bold text-deltaAccent mb-4"><i class="fa fa-history mr-2"></i>历史抽取记录</h3>
@@ -706,7 +699,6 @@
                 </div>
             </div>
         </section>
-
         <!-- 邮件专区 -->
         <section id="mail" class="panel-section mb-10 hidden">
             <h2 class="text-2xl font-bold mb-4 flex items-center">
@@ -774,6 +766,102 @@
         </section>
     </div>
 </main>
+
+<!-- 页面底部 折叠式用户使用条款及免责声明（页脚式） -->
+<div class="md:ml-60 border-t border-deltaLine">
+    <div class="max-w-6xl mx-auto p-4 md:px-8 md:py-4">
+        <div id="agreementToggle" class="flex items-center justify-between cursor-pointer hover:text-deltaAccent transition select-none">
+            <h3 class="text-sm font-bold text-deltaAccent flex items-center gap-2">
+                <i class="fa fa-file-text-o"></i>
+                用户使用条款及免责声明
+            </h3>
+            <i class="fa fa-chevron-down text-gray-500 text-xs transition-transform" id="agreementArrow"></i>
+        </div>
+        <div id="agreementContent" class="hidden text-xs text-gray-300 leading-relaxed space-y-3 pt-2 pb-4">
+            <p>欢迎您使用<strong class="text-white">三角洲行动 | 工具站</strong>（以下简称“本站”）。本站提供关于游戏《三角洲行动》的相关数据服务，包括游戏内改枪方案提供、每日密码门密码提供等。在使用本站前，请您认真阅读本《用户使用条款及免责声明》，继续使用本站即代表您已阅读并同意本条款。</p>
+            
+            <div class="grid gap-3 md:grid-cols-2">
+                <div>
+                    <h4 class="font-semibold text-white mb-1.5">1. 网站使用规定</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>未经站长授权许可，严禁转载本站任何内容。</li>
+                        <li>禁止任何形式的爬虫、自动化程序抓取本站任何内容，若有发现请立即删除并告知。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-1.5">2. 游戏数据与准确性说明</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>本站所提供的任何游戏数据仅供玩家参考，请以游戏官方实际情况为准。</li>
+                        <li>本站不对数据的准确性问题、内容完整性或实时性做出任何保证，由此产生的损失本站概不负责。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-1.5">3. 知识产权与版权声明</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>本站所设计的公司名称、商标、产品等内容仅供识别，本站不代表任何官方立场。</li>
+                        <li>本站所使用的游戏图片、动画、音频、文本等内容，其版权归属于腾讯公司及三角洲行动项目组所有。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-1.5">4. 内容使用</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>本站所使用的游戏图片、动画、音频、文本等内容，仅供玩家参考。</li>
+                        <li>本站不对这些内容享有任何所有权，所有相关权利归原版权所有者享有。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-1.5">5. 责任与风险</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>本站仅提供信息展示服务，不对因使用本站信息或访问本站而造成的任何直接或间接损失负责。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-1.5">6. 外部链接</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>本站可能包含指向第三方网站的链接，这些链接仅供访问。</li>
+                        <li>本站不对任何第三方网站的内容或安全性承担任何责任。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-1.5">7. 内容修改和变更通知</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>本站随时更新新内容，无需提前通知用户。</li>
+                        <li>后续更新将会以本站内“邮件”功能进行告知。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-1.5">8. 关于“条款变更”</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>本站随时可能更改条款及其生效日期。</li>
+                        <li>继续使用本站即视为接受新的《用户使用条款及免责声明》。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-1.5">9. 法律责任与最终解释权</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>违者可能会承担相应的法律责任，本站保留依法追究违者法律责任的权利。</li>
+                        <li>本站对本使用条款与免责声明拥有最终解释权，若有任何争议，本站将根据法律法规予以处理。</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold text-white mb-1.5">10. 版权问题与内容删除</h4>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>本站尊重原创作者和版权人的合法权益。若您认为本站内的任何内容侵犯了您的版权，请及时联系我们，提供相关证明材料，我们将会在收到请求后处理。</li>
+                        <li>如果您是该内容的版权所有者或被授权人，并要求删除某项内容，请与我们进行联系。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-deltaLine flex flex-wrap gap-x-5 gap-y-1 text-gray-500">
+                <span>站长联系方式：</span>
+                <span>QQ：3685250001</span>
+                <span>邮箱：3685250001@qq.com</span>
+                <span class="ml-auto">本站对本条款拥有最终解释权</span>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 全局图片弹窗 -->
 <div id="imageModal" class="fixed inset-0 bg-black/85 z-[9999] hidden items-center justify-center p-4 cursor-pointer">
     <button id="closeModal" class="absolute top-4 right-4 text-white text-2xl hover:text-deltaAccent transition z-10">
@@ -987,17 +1075,9 @@
                     </button>
                 </div>
                 <div class="p-4">
-                    <div class="code-font text-3xl font-bold text-deltaAccent text-center mb-3">
+                    <div class="code-font text-3xl font-bold text-deltaAccent text-center">
                         ${item.password}
                     </div>
-                    <p class="text-sm text-gray-400 leading-relaxed">${item.description}</p>
-                    ${item.images.length ? `
-                        <div class="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
-                            ${item.images.map(img => `
-                                <img src="${img}" class="h-20 rounded border border-deltaLine flex-shrink-0 cursor-pointer hover:border-deltaAccent transition" loading="lazy">
-                            `).join('')}
-                        </div>
-                    ` : ''}
                 </div>
             </div>
         `).join('');
@@ -1148,7 +1228,6 @@
             buttons.forEach(btn => btn.classList.remove('marked'));
         });
     })();
-
     // ========== 随机装备生成器脚本 ==========
     (function(){
         // 装备数据库
@@ -1234,7 +1313,6 @@
                 '旅行背包（一级）', '运动背包（一级）', '斜挎包（一级）'
             ]
         };
-
         const typeMap = {
             operator: 'val-operator',
             weapon: 'val-weapon',
@@ -1243,7 +1321,6 @@
             vest: 'val-vest',
             backpack: 'val-backpack'
         };
-
         // 本地历史读写
         function getHistory(){
             let raw = localStorage.getItem("equipHistory");
@@ -1273,7 +1350,6 @@
             });
             wrap.innerHTML = html;
         }
-
         // 随机逻辑
         function randomAll() {
             const result = {};
@@ -1287,7 +1363,6 @@
                 void el.offsetWidth;
                 el.classList.add('animate-pop');
             });
-
             // 存入历史
             const history = getHistory();
             result.time = new Date().toLocaleString();
@@ -1296,26 +1371,21 @@
             saveHistory(history);
             renderHistory();
         }
-
         function resetEquip() {
             Object.values(typeMap).forEach(id => {
                 document.getElementById(id).textContent = '—';
             });
         }
-
         function clearHistory(){
             localStorage.removeItem("equipHistory");
             renderHistory();
         }
-
         document.getElementById('randomAllBtn').addEventListener('click', randomAll);
         document.getElementById('resetEquipBtn').addEventListener('click', resetEquip);
         document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
-
         // 页面加载渲染历史
         renderHistory();
     })();
-
     // ========== 音乐播放器脚本 ==========
     const audio = document.getElementById('audio');
     const playBtn = document.getElementById('playBtn');
@@ -1512,6 +1582,18 @@
             minimizeMusic();
         }
     });
+
+    // ========== 底部条款折叠展开 ==========
+    (function(){
+        const toggle = document.getElementById('agreementToggle');
+        const content = document.getElementById('agreementContent');
+        const arrow = document.getElementById('agreementArrow');
+        
+        toggle.addEventListener('click', () => {
+            content.classList.toggle('hidden');
+            arrow.classList.toggle('rotate-180');
+        });
+    })();
 </script>
 </body>
 </html>
